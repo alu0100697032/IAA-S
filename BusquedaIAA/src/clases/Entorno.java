@@ -8,35 +8,32 @@ public class Entorno extends Observable{
 	 * ATRIBUTOS
 	 */
 	private int anchoEntorno;
-	private int largoEntorno;
+	private int altoEntorno;
 	private int numeroObjetos;
 	private int numeroCasillas;
 	private ArrayList<Integer> DibujoEntorno;
 	private Robot robot1;
 	
-	public Entorno(int ancho, int largo, int objetos){
+	public Entorno(int ancho, int alto, int objetos){
 		robot1 = new Robot();
 		setAnchoEntorno(ancho);
-		setLargoEntorno(largo);
-		setNumeroCasillas(ancho*largo);
+		setAltoEntorno(alto);
+		setNumeroCasillas(ancho*alto);
 		setNumeroObjetos(objetos);
-		DibujoEntorno = new ArrayList<Integer>(ancho*largo);
+		DibujoEntorno = new ArrayList<Integer>(ancho*alto);
+	}
+
+	public void cambiarDimensionesEntorno(int ancho, int alto){
+		setAltoEntorno(alto);
+		setAnchoEntorno(ancho);
 		setChanged();
 		notifyObservers();
 	}
-
-	
 	public int getAnchoEntorno() {
 		return anchoEntorno;
 	}
 	public void setAnchoEntorno(int anchoEntorno) {
 		this.anchoEntorno = anchoEntorno;
-	}
-	public int getLargoEntorno() {
-		return largoEntorno;
-	}
-	public void setLargoEntorno(int largoEntorno) {
-		this.largoEntorno = largoEntorno;
 	}
 
 	public ArrayList<Integer> getDibujoEntorno() {
@@ -71,5 +68,21 @@ public class Entorno extends Observable{
 
 	public void setNumeroCasillas(int numeroCasillas) {
 		this.numeroCasillas = numeroCasillas;
+	}
+
+
+	/**
+	 * @return the altoEntorno
+	 */
+	public int getAltoEntorno () {
+		return altoEntorno;
+	}
+
+
+	/**
+	 * @param altoEntorno the altoEntorno to set
+	 */
+	public void setAltoEntorno (int altoEntorno) {
+		this.altoEntorno = altoEntorno;
 	}
 }
