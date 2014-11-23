@@ -21,7 +21,8 @@ public class DibujaMatriz extends JPanel {
 	public DibujaMatriz(int anchoPanelBotones, int anchoEntorno,
 			int altoEntorno, int anchoVentana, int altoVentana) {
 
-		setLayout(new GridLayout(anchoEntorno, altoEntorno, 5, 5));
+		removeAll();
+		setLayout(new GridLayout(anchoEntorno, altoEntorno, 1, 1));
 		setBackground(Color.BLACK);
 		setBounds(0, 0, anchoVentana, altoVentana - 100);
 		for (int i = 0; i < anchoEntorno * altoEntorno; i++) {

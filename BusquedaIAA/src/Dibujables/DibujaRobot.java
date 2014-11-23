@@ -11,16 +11,18 @@ package Dibujables;
 
 import java.awt.Color;
 
-import javax.swing.JPanel;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  * @author Victor
  *
  */
 @SuppressWarnings("serial")
-public class DibujaRobot extends JPanel{
-
+public class DibujaRobot extends JLabel{
+	
 	public DibujaRobot(){
+		setOpaque(true);
 		setBackground(Color.RED);
 		setVisible(true);
 	}

@@ -2,11 +2,13 @@ package Dibujables;
 
 import java.awt.Color;
 
-import javax.swing.JPanel;
+import javax.swing.JLabel;
 
-public class DibujaCelda extends JPanel{
-
+@SuppressWarnings("serial")
+public class DibujaCelda extends JLabel{
+	
 	public DibujaCelda(){
+		setOpaque(true);
 		setBackground(Color.WHITE);
 		setVisible(true);
 	}

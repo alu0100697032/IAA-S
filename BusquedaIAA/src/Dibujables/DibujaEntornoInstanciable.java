@@ -22,12 +22,16 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 		super(ent);
 		// TODO Auto-generated constructor stub
 		getPanelBotones().addCrearEntornoListener(new CrearEntornoListener());
+		getPanelBotones().addResetListener(new ResetListener());
+		getPanelBotones().addMoverRobotListener(new MoverRobotListener());
 	}
 
 	@Override
 	public void update (Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 		RellenarEntorno();
+		BorrarEntorno();
+		RepintarRobot();
 	}
 
 	class CrearEntornoListener implements ActionListener {
@@ -43,6 +47,19 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 							.getInsertarAnchoEntorno().getText()),
 					Integer.parseInt(getPanelBotones().getInsertarAltoEntorno()
 							.getText()));
+		}
+	}
+	
+	class ResetListener implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			getEntorno().cambiarDimensionesEntorno(0,0);
+			getPanelBotones().getCrearEntorno().setEnabled(true);
+		}
+	}
+	
+	class MoverRobotListener implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			getEntorno().moverRobot();
 		}
 	}
 }

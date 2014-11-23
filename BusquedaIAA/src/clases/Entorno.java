@@ -14,21 +14,30 @@ public class Entorno extends Observable{
 	private ArrayList<Integer> DibujoEntorno;
 	private Robot robot1;
 	
-	public Entorno(int ancho, int alto, int objetos){
+	public Entorno(){
 		robot1 = new Robot();
-		setAnchoEntorno(ancho);
-		setAltoEntorno(alto);
-		setNumeroCasillas(ancho*alto);
-		setNumeroObjetos(objetos);
-		DibujoEntorno = new ArrayList<Integer>(ancho*alto);
 	}
 
 	public void cambiarDimensionesEntorno(int ancho, int alto){
 		setAltoEntorno(alto);
 		setAnchoEntorno(ancho);
+		setNumeroCasillas(ancho*alto);
+		DibujoEntorno = new ArrayList<Integer>(ancho*alto);
 		setChanged();
 		notifyObservers();
 	}
+	
+	public int getPosicionEnLaMatrizRobot(){
+		return getRobot1().getPosicionX()+getRobot1().getPosicionY()*10;
+	}
+	public void moverRobot(){
+		robot1.Moverse();
+		setChanged();
+		notifyObservers();
+	}
+	/*
+	 * METODOS DE ACCESO A LOS ATRIBUTOS
+	 */
 	public int getAnchoEntorno() {
 		return anchoEntorno;
 	}
