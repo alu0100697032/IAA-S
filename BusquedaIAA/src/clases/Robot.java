@@ -1,50 +1,80 @@
 package clases;
 
+import java.util.Observable;
 
-public class Robot{
+
+public class Robot extends Observable implements Runnable{
 
 	/*
 	 * ATRIBUTOS 
 	 */
-	private int posicionX;
-	private int posicionY;
+	private int posicionXActual;
+	private int posicionYActual;
+	private int posicionXAnterior;
+	private int posicionYAnterior;
 	/*
 	 * CONSTRUCTOR
 	 */
 	public Robot(){
-		setPosicionX(0);
-		setPosicionY(0);
+		setPosicionXActual(0);
+		setPosicionYActual(0);
+		setPosicionXAnterior(0);
+		setPosicionYAnterior(0);
 	}
 	
 	public void Moverse(){
 		for(int i = 0; i < 10; i++){
-			setPosicionX(getPosicionX()+1);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			setPosicionXAnterior(getPosicionXActual());
+			setPosicionXActual(getPosicionXActual()+1);
 		}	
 	}
 	
-	/**
-	 * @return the posicionX
-	 */
-	public int getPosicionX () {
-		return posicionX;
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		this.Moverse();
 	}
-	/**
-	 * @param posicionX the posicionX to set
-	 */
-	public void setPosicionX (int posicionX) {
-		this.posicionX = posicionX;
+
+	public int getPosicionXActual() {
+		return posicionXActual;
 	}
-	/**
-	 * @return the posicionY
-	 */
-	public int getPosicionY () {
-		return posicionY;
+
+	public void setPosicionXActual(int posicionXActual) {
+		this.posicionXActual = posicionXActual;
+		setChanged();
+		notifyObservers();
 	}
-	/**
-	 * @param posicionY the posicionY to set
-	 */
-	public void setPosicionY (int posicionY) {
-		this.posicionY = posicionY;
+
+	public int getPosicionYActual() {
+		return posicionYActual;
 	}
-	
+
+	public void setPosicionYActual(int posicionYActual) {
+		this.posicionYActual = posicionYActual;
+		setChanged();
+		notifyObservers();
+	}
+
+	public int getPosicionYAnterior() {
+		return posicionYAnterior;
+	}
+
+	public void setPosicionYAnterior(int posicionYAnterior) {
+		this.posicionYAnterior = posicionYAnterior;
+	}
+
+	public int getPosicionXAnterior() {
+		return posicionXAnterior;
+	}
+
+	public void setPosicionXAnterior(int posicionXAnterior) {
+		this.posicionXAnterior = posicionXAnterior;
+	}
+
 }

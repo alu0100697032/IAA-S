@@ -1,5 +1,4 @@
 package clases;
-import java.util.ArrayList;
 import java.util.Observable;
 
 
@@ -11,7 +10,7 @@ public class Entorno extends Observable{
 	private int altoEntorno;
 	private int numeroObjetos;
 	private int numeroCasillas;
-	private ArrayList<Integer> DibujoEntorno;
+	private int[] DibujoEntorno;
 	private Robot robot1;
 	
 	public Entorno(){
@@ -22,18 +21,26 @@ public class Entorno extends Observable{
 		setAltoEntorno(alto);
 		setAnchoEntorno(ancho);
 		setNumeroCasillas(ancho*alto);
-		DibujoEntorno = new ArrayList<Integer>(ancho*alto);
+		DibujoEntorno = new int[ancho*alto];
+		for(int i = 0; i < ancho*alto; i++)
+			DibujoEntorno[i] = 0;
 		setChanged();
 		notifyObservers();
 	}
 	
-	public int getPosicionEnLaMatrizRobot(){
-		return getRobot1().getPosicionX()+getRobot1().getPosicionY()*10;
+	public int getPosicionActualRobot(){
+		return getRobot1().getPosicionXActual()+getRobot1().getPosicionYActual()*10;
 	}
-	public void moverRobot(){
-		robot1.Moverse();
-		setChanged();
-		notifyObservers();
+	
+	public int getPosicionAnteriorRobot(){
+		return getRobot1().getPosicionXAnterior()+getRobot1().getPosicionYAnterior()*10;
+	}
+	
+	public void setPosicionRobotCero(){
+		robot1 = new Robot();
+	}
+	public void moverRobot() throws InterruptedException{
+		new Thread(robot1).start();
 	}
 	/*
 	 * METODOS DE ACCESO A LOS ATRIBUTOS
@@ -45,11 +52,11 @@ public class Entorno extends Observable{
 		this.anchoEntorno = anchoEntorno;
 	}
 
-	public ArrayList<Integer> getDibujoEntorno() {
+	public int[] getDibujoEntorno() {
 		return DibujoEntorno;
 	}
 
-	public void setDibujoEntorno(ArrayList<Integer> dibujoEntorno) {
+	public void setDibujoEntorno(int[] dibujoEntorno) {
 		DibujoEntorno = dibujoEntorno;
 	}
 

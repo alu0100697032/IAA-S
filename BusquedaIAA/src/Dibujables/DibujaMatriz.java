@@ -11,6 +11,8 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
+import clases.Entorno;
+
 /**
  * @author Victor
  * 
@@ -18,18 +20,16 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class DibujaMatriz extends JPanel {
 
-	public DibujaMatriz(int anchoPanelBotones, int anchoEntorno,
-			int altoEntorno, int anchoVentana, int altoVentana) {
+	public DibujaMatriz(int anchoPanelBotones, Entorno entorno,
+			int anchoVentana, int altoVentana) {
 
 		removeAll();
-		setLayout(new GridLayout(anchoEntorno, altoEntorno, 1, 1));
+		setLayout(new GridLayout(entorno.getAnchoEntorno(), entorno.getAltoEntorno(), 1, 1));
 		setBackground(Color.BLACK);
 		setBounds(0, 0, anchoVentana, altoVentana - 100);
-		for (int i = 0; i < anchoEntorno * altoEntorno; i++) {
-			if(i == 0)
-				add(new DibujaRobot());
-			else
+		for (int i = 0; i < entorno.getDibujoEntorno().length; i++) {
+			if(entorno.getDibujoEntorno()[i] == 0)
 				add(new DibujaCelda());
-		}
+		}			
 	}
 }

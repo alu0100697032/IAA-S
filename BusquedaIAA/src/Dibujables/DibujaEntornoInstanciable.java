@@ -52,6 +52,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	
 	class ResetListener implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
+			getEntorno().setPosicionRobotCero();
 			getEntorno().cambiarDimensionesEntorno(0,0);
 			getPanelBotones().getCrearEntorno().setEnabled(true);
 		}
@@ -59,7 +60,12 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	
 	class MoverRobotListener implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
-			getEntorno().moverRobot();
+			try {
+				getEntorno().moverRobot();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 }

@@ -21,60 +21,70 @@ abstract class DibujaEntorno implements Observer {
 	private JFrame entornoFrame;
 	private DibujaPanelBotones panelBotones;
 	private DibujaMatriz matriz;
+	private Boolean MatrizRellena;
 
 	/*
 	 * CONSTRUCTOR
 	 */
 	public DibujaEntorno(Entorno ent) {
 		setEntorno(ent);
+		MatrizRellena = false;
 		entornoFrame = new JFrame("Entorno");
 		entornoFrame.setLayout(null);
-		//entornoFrame.setResizable(false);
+		// entornoFrame.setResizable(false);
 		entornoFrame.setBounds(0, 0, width, height);
 		entornoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		entornoFrame
 				.add(setPanelBotones(new DibujaPanelBotones(width, height)));
 		entorno.addObserver(this);
+		entorno.getRobot1().addObserver(this);
 		entornoFrame.setVisible(true);
 	}
 
-	public void RellenarEntorno () {
-		if (entorno.getAnchoEntorno() != 0 && entorno.getAltoEntorno() != 0) {
+	public void RellenarEntorno() {
+		if (entorno.getAnchoEntorno() != 0 && entorno.getAltoEntorno() != 0
+				&& entorno.getDibujoEntorno().length != 0
+				&& MatrizRellena == false) {
 			entornoFrame.add(setMatriz(new DibujaMatriz(panelBotones
-					.getAltoPanelBotones(), entorno.getAnchoEntorno(), entorno
-					.getAltoEntorno(), width, height)));
+					.getAltoPanelBotones(), entorno, width, height)));
 			entornoFrame.repaint();
 			entornoFrame.setVisible(true);
+			MatrizRellena = true;
 		}
 		// System.out.println(getMatriz().getComponent(getEntorno().getPosicionEnLaMatrizRobot()).getClass().getName());
 	}
 
-	public void BorrarEntorno () {
-		if (getMatriz() != null && getEntorno().getAltoEntorno() == 0
+	public void BorrarEntorno() {
+		if (entorno.getDibujoEntorno().length == 0
+				&& getEntorno().getAltoEntorno() == 0
 				&& getEntorno().getAnchoEntorno() == 0) {
 			entornoFrame.remove(getMatriz());
 			entornoFrame.repaint();
+			MatrizRellena = false;
 		}
 	}
-	
-	public void RepintarRobot(){
-		getMatriz().getComponent(getEntorno().getPosicionEnLaMatrizRobot()).setBackground(Color.RED);
-		entornoFrame.repaint();
-		entornoFrame.setVisible(true);
+
+	public void RepintarRobot() {
+		getMatriz().getComponent(getEntorno().getPosicionAnteriorRobot())
+		.setBackground(Color.WHITE);
+		getMatriz().getComponent(getEntorno().getPosicionActualRobot())
+				.setBackground(Color.RED);
+		getMatriz().repaint();
+		getMatriz().setVisible(true);
 	}
 
-	public Entorno getEntorno () {
+	public Entorno getEntorno() {
 		return entorno;
 	}
 
-	public void setEntorno (Entorno entorno) {
+	public void setEntorno(Entorno entorno) {
 		this.entorno = entorno;
 	}
 
 	/**
 	 * @return the panelBotones
 	 */
-	public DibujaPanelBotones getPanelBotones () {
+	public DibujaPanelBotones getPanelBotones() {
 		return panelBotones;
 	}
 
@@ -82,7 +92,7 @@ abstract class DibujaEntorno implements Observer {
 	 * @param panelBotones
 	 *            the panelBotones to set
 	 */
-	public DibujaPanelBotones setPanelBotones (DibujaPanelBotones panelBotones) {
+	public DibujaPanelBotones setPanelBotones(DibujaPanelBotones panelBotones) {
 		this.panelBotones = panelBotones;
 		return panelBotones;
 	}
@@ -90,7 +100,7 @@ abstract class DibujaEntorno implements Observer {
 	/**
 	 * @return the matriz
 	 */
-	public DibujaMatriz getMatriz () {
+	public DibujaMatriz getMatriz() {
 		return matriz;
 	}
 
@@ -98,9 +108,17 @@ abstract class DibujaEntorno implements Observer {
 	 * @param matriz
 	 *            the matriz to set
 	 */
-	public DibujaMatriz setMatriz (DibujaMatriz matriz) {
+	public DibujaMatriz setMatriz(DibujaMatriz matriz) {
 		this.matriz = matriz;
 		return matriz;
+	}
+
+	public Boolean getMatrizRellena() {
+		return MatrizRellena;
+	}
+
+	public void setMatrizRellena(Boolean matrizRellena) {
+		MatrizRellena = matrizRellena;
 	}
 
 }
