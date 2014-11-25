@@ -18,6 +18,7 @@ abstract class DibujaEntorno implements Observer {
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	private int width = screenSize.width - 100;
 	private int height = screenSize.height - 100;
+	private int margenFrame = 25;
 	private JFrame entornoFrame;
 	private DibujaPanelBotones panelBotones;
 	private DibujaMatriz matriz;
@@ -31,8 +32,8 @@ abstract class DibujaEntorno implements Observer {
 		MatrizRellena = false;
 		entornoFrame = new JFrame("Entorno");
 		entornoFrame.setLayout(null);
-		// entornoFrame.setResizable(false);
-		entornoFrame.setBounds(0, 0, width, height);
+		entornoFrame.setResizable(false);
+		entornoFrame.setBounds(0, 0, width+margenFrame, height+margenFrame);
 		entornoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		entornoFrame
 				.add(setPanelBotones(new DibujaPanelBotones(width, height)));
@@ -119,6 +120,20 @@ abstract class DibujaEntorno implements Observer {
 
 	public void setMatrizRellena(Boolean matrizRellena) {
 		MatrizRellena = matrizRellena;
+	}
+
+	/**
+	 * @return the margenFrame
+	 */
+	public int getMargenFrame () {
+		return margenFrame;
+	}
+
+	/**
+	 * @param margenFrame the margenFrame to set
+	 */
+	public void setMargenFrame (int margenFrame) {
+		this.margenFrame = margenFrame;
 	}
 
 }

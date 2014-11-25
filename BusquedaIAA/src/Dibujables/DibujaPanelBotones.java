@@ -1,11 +1,8 @@
 /**
  * 
- * AUTOR: VÍCTOR HERNÁNDEZ PÉREZ
- * ASIGNATURA: PROGRAMACIÓN DE APLICACIONES INTERACTIVAS
- * E-MAIL: alu0100697032@ull.edu.es
- * 20/11/2014
- * DibujaPanelBotones.java
- * BusquedaIAA
+ * AUTOR: VÍCTOR HERNÁNDEZ PÉREZ ASIGNATURA: PROGRAMACIÓN DE APLICACIONES
+ * INTERACTIVAS E-MAIL: alu0100697032@ull.edu.es 20/11/2014
+ * DibujaPanelBotones.java BusquedaIAA
  */
 package Dibujables;
 
@@ -21,10 +18,10 @@ import javax.swing.SwingConstants;
 
 /**
  * @author Victor
- *
+ * 
  */
 @SuppressWarnings("serial")
-public class DibujaPanelBotones extends JPanel{
+public class DibujaPanelBotones extends JPanel {
 
 	/*
 	 * ATRIBUTOS
@@ -39,33 +36,40 @@ public class DibujaPanelBotones extends JPanel{
 	private JLabel altoEntorno;
 	private JTextField insertarAnchoEntorno;
 	private JTextField insertarAltoEntorno;
-	
-	public DibujaPanelBotones(int ancho, int alto){
-		setBounds(0, alto - altoPanelBotones + margenSuperior, ancho, altoPanelBotones-margenInferior);
-		setLayout(new GridLayout(1,0));
+	private JTextField insertarXDestino;
+	private JTextField insertarYDestino;
+
+	public DibujaPanelBotones(int ancho, int alto) {
+		setBounds(0, alto - altoPanelBotones + margenSuperior, ancho,
+				altoPanelBotones - margenInferior);
+		setLayout(new GridLayout(1, 0));
 		add(setCrearEntorno(new JButton("Crear Entorno")));
 		add(setAnchoEntorno(new JLabel("Ancho")));
 		add(setInsertarAnchoEntorno(new JTextField("10")));
 		add(setAltoEntorno(new JLabel("Alto")));
 		add(setInsertarAltoEntorno(new JTextField("10")));
-		add(setMoverRobot(new JButton("Mover Robot")));
+		add(setMoverRobot(new JButton("Mover Robot a:")));
+		add(setInsertarXDestino(new JTextField("1")));
+		add(setInsertarYDestino(new JTextField("1")));
 		add(setReset(new JButton("Reset")));
 		setVisible(true);
 	}
+
 	/*
 	 * LISTENERS
 	 */
-	public void addCrearEntornoListener(ActionListener a){
+	public void addCrearEntornoListener (ActionListener a) {
 		crearEntorno.addActionListener(a);
 	}
-	
-	public void addResetListener(ActionListener a){
+
+	public void addResetListener (ActionListener a) {
 		reset.addActionListener(a);
 	}
-	
-	public void addMoverRobotListener(ActionListener a){
+
+	public void addMoverRobotListener (ActionListener a) {
 		moverRobot.addActionListener(a);
-	}	
+	}
+
 	/*
 	 * METODOS DE ACCESO A ATRIBUTOS
 	 */
@@ -77,7 +81,8 @@ public class DibujaPanelBotones extends JPanel{
 	}
 
 	/**
-	 * @param crearEntorno the crearEntorno to set
+	 * @param crearEntorno
+	 *            the crearEntorno to set
 	 */
 	public JButton setCrearEntorno (JButton crearEntorno) {
 		this.crearEntorno = crearEntorno;
@@ -92,7 +97,8 @@ public class DibujaPanelBotones extends JPanel{
 	}
 
 	/**
-	 * @param insertarAnchoEntorno the insertarAnchoEntorno to set
+	 * @param insertarAnchoEntorno
+	 *            the insertarAnchoEntorno to set
 	 */
 	public JTextField setInsertarAnchoEntorno (JTextField insertarAnchoEntorno) {
 		this.insertarAnchoEntorno = insertarAnchoEntorno;
@@ -108,7 +114,8 @@ public class DibujaPanelBotones extends JPanel{
 	}
 
 	/**
-	 * @param insertarAltoEntorno the insertarAltoEntorno to set
+	 * @param insertarAltoEntorno
+	 *            the insertarAltoEntorno to set
 	 */
 	public JTextField setInsertarAltoEntorno (JTextField insertarAltoEntorno) {
 		this.insertarAltoEntorno = insertarAltoEntorno;
@@ -131,7 +138,8 @@ public class DibujaPanelBotones extends JPanel{
 	}
 
 	/**
-	 * @param altoEntorno the altoEntorno to set
+	 * @param altoEntorno
+	 *            the altoEntorno to set
 	 */
 	public JLabel setAltoEntorno (JLabel altoEntorno) {
 		this.altoEntorno = altoEntorno;
@@ -149,7 +157,8 @@ public class DibujaPanelBotones extends JPanel{
 	}
 
 	/**
-	 * @param anchoEntorno the anchoEntorno to set
+	 * @param anchoEntorno
+	 *            the anchoEntorno to set
 	 */
 	public JLabel setAnchoEntorno (JLabel anchoEntorno) {
 		this.anchoEntorno = anchoEntorno;
@@ -167,7 +176,8 @@ public class DibujaPanelBotones extends JPanel{
 	}
 
 	/**
-	 * @param reset the reset to set
+	 * @param reset
+	 *            the reset to set
 	 */
 	public JButton setReset (JButton reset) {
 		this.reset = reset;
@@ -182,7 +192,8 @@ public class DibujaPanelBotones extends JPanel{
 	}
 
 	/**
-	 * @param margenInferior the margenInferior to set
+	 * @param margenInferior
+	 *            the margenInferior to set
 	 */
 	public void setMargenInferior (int margenInferior) {
 		this.margenInferior = margenInferior;
@@ -196,24 +207,60 @@ public class DibujaPanelBotones extends JPanel{
 	}
 
 	/**
-	 * @param margenSuperior the margenSuperior to set
+	 * @param margenSuperior
+	 *            the margenSuperior to set
 	 */
 	public void setMargenSuperior (int margenSuperior) {
 		this.margenSuperior = margenSuperior;
 	}
+
 	/**
 	 * @return the moverRobot
 	 */
 	public JButton getMoverRobot () {
 		return moverRobot;
 	}
+
 	/**
-	 * @param moverRobot the moverRobot to set
+	 * @param moverRobot
+	 *            the moverRobot to set
 	 */
 	public JButton setMoverRobot (JButton moverRobot) {
 		this.moverRobot = moverRobot;
+		this.moverRobot.setEnabled(false);
 		return moverRobot;
 	}
 
+	/**
+	 * @return the insertarXDestino
+	 */
+	public JTextField getInsertarXDestino () {
+		return insertarXDestino;
+	}
+
+	/**
+	 * @param insertarXDestino the insertarXDestino to set
+	 */
+	public JTextField setInsertarXDestino (JTextField insertarXDestino) {
+		this.insertarXDestino = insertarXDestino;
+		this.insertarXDestino.setHorizontalAlignment(SwingConstants.CENTER);
+		return insertarXDestino;
+	}
+
+	/**
+	 * @return the insertarYDestino
+	 */
+	public JTextField getInsertarYDestino () {
+		return insertarYDestino;
+	}
+
+	/**
+	 * @param insertarYDestino the insertarYDestino to set
+	 */
+	public JTextField setInsertarYDestino (JTextField insertarYDestino) {
+		this.insertarYDestino = insertarYDestino;
+		this.insertarYDestino.setHorizontalAlignment(SwingConstants.CENTER);
+		return insertarYDestino;
+	}
 
 }

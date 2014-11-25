@@ -6,6 +6,7 @@
  */
 package Dibujables;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
@@ -38,6 +39,9 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 		public void actionPerformed (ActionEvent e) {
 			getPanelBotones().getCrearEntorno().setEnabled(false);// DESABILITAMOS
 																	// EL BOTON
+			getPanelBotones().getMoverRobot().setEnabled(true);// HABILITAMOS EL
+																// BOTON DE
+																// MOVIMIENTO
 			/*
 			 * MODIFICAMOS NUESTRO OBJETO ENTORNO CON LOS VALORES DE LOS CAMPOS
 			 * DE TEXTO
@@ -49,17 +53,23 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 							.getText()));
 		}
 	}
-	
+
 	class ResetListener implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
 			getEntorno().setPosicionRobotCero();
-			getEntorno().cambiarDimensionesEntorno(0,0);
+			getEntorno().cambiarDimensionesEntorno(0, 0);
 			getPanelBotones().getCrearEntorno().setEnabled(true);
 		}
 	}
-	
+
 	class MoverRobotListener implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
+			getPanelBotones().getMoverRobot().setEnabled(false);
+			getEntorno().setPosicionDestinoRobot(
+					new Point(Integer.parseInt(getPanelBotones()
+							.getInsertarXDestino().getText()), Integer
+							.parseInt(getPanelBotones().getInsertarYDestino()
+									.getText())));
 			try {
 				getEntorno().moverRobot();
 			} catch (InterruptedException e1) {

@@ -1,4 +1,5 @@
 package clases;
+import java.awt.Point;
 import java.util.Observable;
 
 
@@ -29,15 +30,18 @@ public class Entorno extends Observable{
 	}
 	
 	public int getPosicionActualRobot(){
-		return getRobot1().getPosicionXActual()+getRobot1().getPosicionYActual()*10;
+		return (int) (getRobot1().getPuntoActual().getX()+getRobot1().getPuntoActual().getY()*10);
 	}
 	
 	public int getPosicionAnteriorRobot(){
-		return getRobot1().getPosicionXAnterior()+getRobot1().getPosicionYAnterior()*10;
+		return (int) (getRobot1().getPuntoAnterior().getX()+getRobot1().getPuntoAnterior().getY()*10);
 	}
 	
 	public void setPosicionRobotCero(){
 		robot1 = new Robot();
+	}
+	public void setPosicionDestinoRobot(Point puntoDestino){
+		robot1.setPuntoDestino(puntoDestino);
 	}
 	public void moverRobot() throws InterruptedException{
 		new Thread(robot1).start();
