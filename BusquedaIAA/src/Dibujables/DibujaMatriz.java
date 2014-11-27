@@ -24,14 +24,19 @@ public class DibujaMatriz extends JPanel {
 			int anchoVentana, int altoVentana) {
 
 		removeAll();
-		setLayout(new GridLayout(entorno.getAnchoEntorno(), entorno.getAltoEntorno(), 1, 1));
+		setLayout(new GridLayout(entorno.getAnchoEntorno(),
+				entorno.getAltoEntorno(), 1, 1));
 		setBackground(Color.BLACK);
 		setBounds(0, 0, anchoVentana, altoVentana - 100);
-		for (int i = 0; i < entorno.getDibujoEntorno().length; i++) {
-			if(entorno.getDibujoEntorno()[i] == 0)
-				add(new DibujaCelda(Color.WHITE));
-			else if(entorno.getDibujoEntorno()[i] == 1)
-				add(new DibujaCelda(Color.GREEN));
+		for (int i = 0; i < entorno.getAnchoEntorno(); i++) {
+			for (int j = 0; j < entorno.getAltoEntorno(); j++) {
+				if (entorno.getDibujoEntorno()[i][j] == 0)
+					add(new DibujaCelda(Color.WHITE));
+				else if (entorno.getDibujoEntorno()[i][j] == 1)
+					add(new DibujaCelda(Color.GREEN));
+				else if (entorno.getDibujoEntorno()[i][j] == 2)
+					add(new DibujaCelda(Color.RED));
+			}
 		}
 	}
 }

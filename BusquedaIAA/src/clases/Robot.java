@@ -25,10 +25,6 @@ public class Robot extends Observable {
 		setPuntoActual(new Point(0, 0));
 		setPuntoAnterior(new Point(0, 0));
 		vectorCostes = new double[4];
-		/*sensorAbajo = false;
-		sensorArriba = false;
-		sensorDerecha = false;
-		sensorIzquierda = false;*/
 	}
 
 	public void seleccionMovimiento () {
@@ -53,13 +49,14 @@ public class Robot extends Observable {
 			if (costeMinimo > vectorCostes[i])
 				costeMinimo = vectorCostes[i];
 		}
-		if (costeMinimo == vectorCostes[0])
+		if (costeMinimo == vectorCostes[0] && moverseDerechaPosible() == true)
 			moverseDerecha();
-		else if (costeMinimo == vectorCostes[1])
+		else if (costeMinimo == vectorCostes[1] && moverseIzquierdaPosible() == true){
 			moverseIzquierda();
-		else if (costeMinimo == vectorCostes[2])
+		}
+		else if (costeMinimo == vectorCostes[2] && moverseArribaPosible() == true)
 			moverseArriba();
-		else if (costeMinimo == vectorCostes[3])
+		else if (costeMinimo == vectorCostes[3] && moverseAbajoPosible() == true)
 			moverseAbajo();
 	}
 

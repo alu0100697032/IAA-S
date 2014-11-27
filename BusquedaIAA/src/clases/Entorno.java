@@ -11,7 +11,7 @@ public class Entorno extends Observable implements Runnable {
 	private int altoEntorno;
 	private int numeroObjetos;
 	private int numeroCasillas;
-	private int[] DibujoEntorno;
+	private int[][] DibujoEntorno;
 	private Robot robot1;
 
 	/*
@@ -27,28 +27,30 @@ public class Entorno extends Observable implements Runnable {
 		setAnchoEntorno(ancho);
 		setNumeroObjetos(numeroObjetos);
 		setNumeroCasillas(ancho * alto);
-		DibujoEntorno = new int[ancho * alto];
-		for (int i = 0; i < ancho * alto; i++)
-			DibujoEntorno[i] = 0;
+		DibujoEntorno = new int[ancho][alto];
+		for (int i = 0; i < ancho; i++)
+			for (int j = 0; j < alto; j++)
+				DibujoEntorno[i][j] = 0;
+		if (DibujoEntorno.length != 0)
+			DibujoEntorno[(int) robot1.getPuntoActual().getX()][(int) robot1
+					.getPuntoActual().getY()] = 2;
 		generarObstaculosAleatorio();
 		setChanged();
 		notifyObservers();
 	}
 
 	public void generarObstaculosAleatorio () {
-		int random;
+		int randomAncho;
+		int randomAlto;
 		for (int i = 0; i < numeroObjetos; i++) {
-			random = (int) Math.floor(Math.random()
-					* (DibujoEntorno.length - 1) + 1);
-			if (DibujoEntorno[random] == 1)
+			randomAncho = (int) Math.floor(Math.random() * (anchoEntorno - 1));
+			randomAlto = (int) Math.floor(Math.random() * (altoEntorno - 1));
+			if (DibujoEntorno[randomAncho][randomAlto] == 1
+					|| DibujoEntorno[randomAncho][randomAlto] == 2)
 				numeroObjetos++;
 			else
-				DibujoEntorno[random] = 1;
+				DibujoEntorno[randomAncho][randomAlto] = 1;
 		}
-	}
-	
-	public void actualizarSensores(){
-	
 	}
 
 	public int getPosicionActualRobot () {
@@ -83,8 +85,51 @@ public class Entorno extends Observable implements Runnable {
 				e.printStackTrace();
 			}
 			robot1.setPuntoAnterior(robot1.getPuntoActual());
+			DibujoEntorno[(int) robot1.getPuntoAnterior().getX()][(int) robot1
+					.getPuntoAnterior().getY()] = 0;
 			actualizarSensores();
 			robot1.seleccionMovimiento();
+			DibujoEntorno[(int) robot1.getPuntoActual().getX()][(int) robot1
+					.getPuntoActual().getY()] = 2;
+		}
+	}
+
+	public void mostrarMatrizVirtual () {
+		for (int i = 0; i < anchoEntorno; i++) {
+			for (int j = 0; j < altoEntorno; j++)
+				System.out.print(DibujoEntorno[i][j]);
+			System.out.println();
+		}
+	}
+
+	public void actualizarSensores () {
+		if ((int) robot1.getPuntoActual().getY() - 1 < 0
+				|| DibujoEntorno[(int) robot1.getPuntoActual().getX()][(int) robot1
+						.getPuntoActual().getY() - 1] == 1)
+			robot1.setSensorArriba(true);
+		else {
+			robot1.setSensorArriba(false);
+		}
+		if ((int) robot1.getPuntoActual().getY() + 1 > altoEntorno
+				|| DibujoEntorno[(int) robot1.getPuntoActual().getX()][(int) robot1
+						.getPuntoActual().getY() + 1] == 1)
+			robot1.setSensorAbajo(true);
+		else {
+			robot1.setSensorAbajo(false);
+		}
+		if ((int) robot1.getPuntoActual().getX() - 1 < 0
+				|| DibujoEntorno[(int) robot1.getPuntoActual().getX() - 1][(int) robot1
+						.getPuntoActual().getY()] == 1)
+			robot1.setSensorIzquierda(true);
+		else {
+			robot1.setSensorIzquierda(false);
+		}
+		if ((int) robot1.getPuntoActual().getX() + 1 > anchoEntorno
+				|| DibujoEntorno[(int) robot1.getPuntoActual().getX() + 1][(int) robot1
+						.getPuntoActual().getY()] == 1)
+			robot1.setSensorDerecha(true);
+		else {
+			robot1.setSensorDerecha(false);
 		}
 	}
 
@@ -105,11 +150,11 @@ public class Entorno extends Observable implements Runnable {
 		this.anchoEntorno = anchoEntorno;
 	}
 
-	public int[] getDibujoEntorno () {
+	public int[][] getDibujoEntorno () {
 		return DibujoEntorno;
 	}
 
-	public void setDibujoEntorno (int[] dibujoEntorno) {
+	public void setDibujoEntorno (int[][] dibujoEntorno) {
 		DibujoEntorno = dibujoEntorno;
 	}
 

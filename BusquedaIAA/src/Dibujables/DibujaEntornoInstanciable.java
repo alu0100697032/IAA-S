@@ -53,6 +53,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 							.getText()),
 					Integer.parseInt(getPanelBotones()
 							.getInsertarNumeroObjetos().getText()));
+			//getEntorno().mostrarMatrizVirtual();
 		}
 	}
 
