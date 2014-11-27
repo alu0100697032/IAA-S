@@ -50,14 +50,16 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 					Integer.parseInt(getPanelBotones()
 							.getInsertarAnchoEntorno().getText()),
 					Integer.parseInt(getPanelBotones().getInsertarAltoEntorno()
-							.getText()));
+							.getText()),
+					Integer.parseInt(getPanelBotones()
+							.getInsertarNumeroObjetos().getText()));
 		}
 	}
 
 	class ResetListener implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
 			getEntorno().setPosicionRobotCero();
-			getEntorno().cambiarDimensionesEntorno(0, 0);
+			getEntorno().cambiarDimensionesEntorno(0, 0, 0);
 			getPanelBotones().getCrearEntorno().setEnabled(true);
 		}
 	}

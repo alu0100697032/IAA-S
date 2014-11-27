@@ -1,9 +1,9 @@
 package clases;
+
 import java.awt.Point;
 import java.util.Observable;
 
-
-public class Entorno extends Observable{
+public class Entorno extends Observable implements Runnable {
 	/*
 	 * ATRIBUTOS
 	 */
@@ -13,83 +13,129 @@ public class Entorno extends Observable{
 	private int numeroCasillas;
 	private int[] DibujoEntorno;
 	private Robot robot1;
-	
-	public Entorno(){
+
+	/*
+	 * CONSTRUCTOR
+	 */
+	public Entorno() {
 		robot1 = new Robot();
 	}
 
-	public void cambiarDimensionesEntorno(int ancho, int alto){
+	public void cambiarDimensionesEntorno (int ancho, int alto,
+			int numeroObjetos) {
 		setAltoEntorno(alto);
 		setAnchoEntorno(ancho);
-		setNumeroCasillas(ancho*alto);
-		DibujoEntorno = new int[ancho*alto];
-		for(int i = 0; i < ancho*alto; i++)
+		setNumeroObjetos(numeroObjetos);
+		setNumeroCasillas(ancho * alto);
+		DibujoEntorno = new int[ancho * alto];
+		for (int i = 0; i < ancho * alto; i++)
 			DibujoEntorno[i] = 0;
+		generarObstaculosAleatorio();
 		setChanged();
 		notifyObservers();
 	}
-	
-	public int getPosicionActualRobot(){
-		return (int) (getRobot1().getPuntoActual().getX()+getRobot1().getPuntoActual().getY()*10);
+
+	public void generarObstaculosAleatorio () {
+		int random;
+		for (int i = 0; i < numeroObjetos; i++) {
+			random = (int) Math.floor(Math.random()
+					* (DibujoEntorno.length - 1) + 1);
+			if (DibujoEntorno[random] == 1)
+				numeroObjetos++;
+			else
+				DibujoEntorno[random] = 1;
+		}
 	}
 	
-	public int getPosicionAnteriorRobot(){
-		return (int) (getRobot1().getPuntoAnterior().getX()+getRobot1().getPuntoAnterior().getY()*10);
-	}
+	public void actualizarSensores(){
 	
-	public void setPosicionRobotCero(){
-		robot1 = new Robot();
 	}
-	public void setPosicionDestinoRobot(Point puntoDestino){
+
+	public int getPosicionActualRobot () {
+		return (int) (getRobot1().getPuntoActual().getX() + getRobot1()
+				.getPuntoActual().getY() * 10);
+	}
+
+	public int getPosicionAnteriorRobot () {
+		return (int) (getRobot1().getPuntoAnterior().getX() + getRobot1()
+				.getPuntoAnterior().getY() * 10);
+	}
+
+	public void setPosicionRobotCero () {
+		robot1.setPuntoActual(new Point(0, 0));
+		robot1.setPuntoAnterior(new Point(0, 0));
+	}
+
+	public void setPosicionDestinoRobot (Point puntoDestino) {
 		robot1.setPuntoDestino(puntoDestino);
 	}
-	public void moverRobot() throws InterruptedException{
-		new Thread(robot1).start();
+
+	public void moverRobot () throws InterruptedException {
+		new Thread(this).start();
 	}
+
+	public void Moverse () {
+		while (robot1.getPuntoActual().equals(robot1.getPuntoDestino()) == false) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			robot1.setPuntoAnterior(robot1.getPuntoActual());
+			actualizarSensores();
+			robot1.seleccionMovimiento();
+		}
+	}
+
+	@Override
+	public void run () {
+		// TODO Auto-generated method stub
+		Moverse();
+	}
+
 	/*
 	 * METODOS DE ACCESO A LOS ATRIBUTOS
 	 */
-	public int getAnchoEntorno() {
+	public int getAnchoEntorno () {
 		return anchoEntorno;
 	}
-	public void setAnchoEntorno(int anchoEntorno) {
+
+	public void setAnchoEntorno (int anchoEntorno) {
 		this.anchoEntorno = anchoEntorno;
 	}
 
-	public int[] getDibujoEntorno() {
+	public int[] getDibujoEntorno () {
 		return DibujoEntorno;
 	}
 
-	public void setDibujoEntorno(int[] dibujoEntorno) {
+	public void setDibujoEntorno (int[] dibujoEntorno) {
 		DibujoEntorno = dibujoEntorno;
 	}
 
-	public Robot getRobot1() {
+	public Robot getRobot1 () {
 		return robot1;
 	}
 
-	public void setRobot1(Robot robot1) {
+	public void setRobot1 (Robot robot1) {
 		this.robot1 = robot1;
 	}
 
-	public int getNumeroObjetos() {
+	public int getNumeroObjetos () {
 		return numeroObjetos;
 	}
 
-	public void setNumeroObjetos(int numeroObjetos) {
+	public void setNumeroObjetos (int numeroObjetos) {
 		this.numeroObjetos = numeroObjetos;
 	}
 
-
-	public int getNumeroCasillas() {
+	public int getNumeroCasillas () {
 		return numeroCasillas;
 	}
 
-
-	public void setNumeroCasillas(int numeroCasillas) {
+	public void setNumeroCasillas (int numeroCasillas) {
 		this.numeroCasillas = numeroCasillas;
 	}
-
 
 	/**
 	 * @return the altoEntorno
@@ -98,9 +144,9 @@ public class Entorno extends Observable{
 		return altoEntorno;
 	}
 
-
 	/**
-	 * @param altoEntorno the altoEntorno to set
+	 * @param altoEntorno
+	 *            the altoEntorno to set
 	 */
 	public void setAltoEntorno (int altoEntorno) {
 		this.altoEntorno = altoEntorno;

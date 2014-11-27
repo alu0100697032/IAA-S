@@ -3,7 +3,7 @@ package clases;
 import java.awt.Point;
 import java.util.Observable;
 
-public class Robot extends Observable implements Runnable {
+public class Robot extends Observable {
 
 	/*
 	 * ATRIBUTOS
@@ -25,23 +25,10 @@ public class Robot extends Observable implements Runnable {
 		setPuntoActual(new Point(0, 0));
 		setPuntoAnterior(new Point(0, 0));
 		vectorCostes = new double[4];
-		sensorAbajo = false;
+		/*sensorAbajo = false;
 		sensorArriba = false;
 		sensorDerecha = false;
-		sensorIzquierda = false;
-	}
-
-	public void Moverse () {
-		while (puntoActual.equals(puntoDestino) == false) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			puntoAnterior = puntoActual;
-			seleccionMovimiento();
-		}
+		sensorIzquierda = false;*/
 	}
 
 	public void seleccionMovimiento () {
@@ -149,11 +136,6 @@ public class Robot extends Observable implements Runnable {
 				.distance(puntoDestino));
 	}
 
-	@Override
-	public void run () {
-		// TODO Auto-generated method stub
-		this.Moverse();
-	}
 
 	/**
 	 * @return the sensorArriba
@@ -263,3 +245,22 @@ public class Robot extends Observable implements Runnable {
 	}
 
 }
+
+/*@Override
+public void run () {
+	// TODO Auto-generated method stub
+	this.Moverse();
+}*/
+
+/*public void Moverse () {
+	while (puntoActual.equals(puntoDestino) == false) {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		puntoAnterior = puntoActual;
+		seleccionMovimiento();
+	}
+}*/

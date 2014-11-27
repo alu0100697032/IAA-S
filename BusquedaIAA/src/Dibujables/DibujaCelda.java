@@ -7,9 +7,9 @@ import javax.swing.JLabel;
 @SuppressWarnings("serial")
 public class DibujaCelda extends JLabel{
 	
-	public DibujaCelda(){
+	public DibujaCelda(Color color){
 		setOpaque(true);
-		setBackground(Color.WHITE);
+		setBackground(color);
 		setVisible(true);
 	}
 }

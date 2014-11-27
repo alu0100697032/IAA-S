@@ -34,10 +34,12 @@ public class DibujaPanelBotones extends JPanel {
 	private JButton moverRobot;
 	private JLabel anchoEntorno;
 	private JLabel altoEntorno;
+	private JLabel numeroObjetos;
 	private JTextField insertarAnchoEntorno;
 	private JTextField insertarAltoEntorno;
 	private JTextField insertarXDestino;
 	private JTextField insertarYDestino;
+	private JTextField insertarNumeroObjetos;
 
 	public DibujaPanelBotones(int ancho, int alto) {
 		setBounds(0, alto - altoPanelBotones + margenSuperior, ancho,
@@ -48,6 +50,8 @@ public class DibujaPanelBotones extends JPanel {
 		add(setInsertarAnchoEntorno(new JTextField("10")));
 		add(setAltoEntorno(new JLabel("Alto")));
 		add(setInsertarAltoEntorno(new JTextField("10")));
+		add(setNumeroObjetos(new JLabel("Objetos")));
+		add(setInsertarNumeroObjetos(new JTextField("10")));
 		add(setMoverRobot(new JButton("Mover Robot a:")));
 		add(setInsertarXDestino(new JTextField("1")));
 		add(setInsertarYDestino(new JTextField("1")));
@@ -261,6 +265,40 @@ public class DibujaPanelBotones extends JPanel {
 		this.insertarYDestino = insertarYDestino;
 		this.insertarYDestino.setHorizontalAlignment(SwingConstants.CENTER);
 		return insertarYDestino;
+	}
+
+	/**
+	 * @return the numeroObjetos
+	 */
+	public JLabel getNumeroObjetos () {
+		return numeroObjetos;
+	}
+
+	/**
+	 * @param numeroObjetos the numeroObjetos to set
+	 */
+	public JLabel setNumeroObjetos (JLabel numeroObjetos) {
+		this.numeroObjetos = numeroObjetos;
+		this.numeroObjetos.setOpaque(true);
+		this.numeroObjetos.setHorizontalAlignment(SwingConstants.CENTER);
+		this.numeroObjetos.setBackground(Color.CYAN);
+		return numeroObjetos;
+	}
+
+	/**
+	 * @return the insertarNumeroObjetos
+	 */
+	public JTextField getInsertarNumeroObjetos () {
+		return insertarNumeroObjetos;
+	}
+
+	/**
+	 * @param insertarNumeroObjetos the insertarNumeroObjetos to set
+	 */
+	public JTextField setInsertarNumeroObjetos (JTextField insertarNumeroObjetos) {
+		this.insertarNumeroObjetos = insertarNumeroObjetos;
+		this.insertarNumeroObjetos.setHorizontalAlignment(SwingConstants.CENTER);
+		return insertarNumeroObjetos;
 	}
 
 }
