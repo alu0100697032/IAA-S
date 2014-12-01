@@ -25,6 +25,8 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 		getPanelBotones().addCrearEntornoListener(new CrearEntornoListener());
 		getPanelBotones().addResetListener(new ResetListener());
 		getPanelBotones().addMoverRobotListener(new MoverRobotListener());
+		getPanelBotones().addModoAleatorio(new ModoAleatorioListener());
+		getPanelBotones().addModoSeleccion(new ModoSeleccionListener());
 	}
 
 	@Override
@@ -54,6 +56,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 					Integer.parseInt(getPanelBotones()
 							.getInsertarNumeroObjetos().getText()));
 			//getEntorno().mostrarMatrizVirtual();
+			getPanelBotones().getReset().setEnabled(true);
 		}
 	}
 
@@ -62,6 +65,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			getEntorno().setPosicionRobotCero();
 			getEntorno().cambiarDimensionesEntorno(0, 0, 0);
 			getPanelBotones().getCrearEntorno().setEnabled(true);
+			getPanelBotones().getMoverRobot().setEnabled(false);
 		}
 	}
 
@@ -79,6 +83,21 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		}
+	}
+	
+	class ModoAleatorioListener implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			getPanelBotones().getCrearEntorno().setEnabled(true);
+			getPanelBotones().getModoAleatorio().setEnabled(false);
+			getPanelBotones().getModoSeleccion().setEnabled(false);
+		}
+	}
+	
+	class ModoSeleccionListener implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			getPanelBotones().getModoAleatorio().setEnabled(false);
+			getPanelBotones().getModoSeleccion().setEnabled(false);
 		}
 	}
 }

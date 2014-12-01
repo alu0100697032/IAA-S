@@ -32,6 +32,8 @@ public class DibujaPanelBotones extends JPanel {
 	private JButton crearEntorno;
 	private JButton reset;
 	private JButton moverRobot;
+	private JButton modoAleatorio;
+	private JButton modoSeleccion;
 	private JLabel anchoEntorno;
 	private JLabel altoEntorno;
 	private JLabel numeroObjetos;
@@ -44,7 +46,9 @@ public class DibujaPanelBotones extends JPanel {
 	public DibujaPanelBotones(int ancho, int alto) {
 		setBounds(0, alto - altoPanelBotones + margenSuperior, ancho,
 				altoPanelBotones - margenInferior);
-		setLayout(new GridLayout(1, 0));
+		setLayout(new GridLayout(2, 0));
+		add(setModoAleatorio(new JButton("Modo aleatorio")));
+		add(setModoSeleccion(new JButton("Modo seleccion")));
 		add(setCrearEntorno(new JButton("Crear Entorno")));
 		add(setAnchoEntorno(new JLabel("Ancho")));
 		add(setInsertarAnchoEntorno(new JTextField("10")));
@@ -73,6 +77,14 @@ public class DibujaPanelBotones extends JPanel {
 	public void addMoverRobotListener (ActionListener a) {
 		moverRobot.addActionListener(a);
 	}
+	
+	public void addModoSeleccion (ActionListener a) {
+		modoSeleccion.addActionListener(a);
+	}
+	
+	public void addModoAleatorio (ActionListener a) {
+		modoAleatorio.addActionListener(a);
+	}
 
 	/*
 	 * METODOS DE ACCESO A ATRIBUTOS
@@ -90,6 +102,7 @@ public class DibujaPanelBotones extends JPanel {
 	 */
 	public JButton setCrearEntorno (JButton crearEntorno) {
 		this.crearEntorno = crearEntorno;
+		this.crearEntorno.setEnabled(false);
 		return crearEntorno;
 	}
 
@@ -185,6 +198,7 @@ public class DibujaPanelBotones extends JPanel {
 	 */
 	public JButton setReset (JButton reset) {
 		this.reset = reset;
+		this.reset.setEnabled(false);
 		return reset;
 	}
 
@@ -299,6 +313,24 @@ public class DibujaPanelBotones extends JPanel {
 		this.insertarNumeroObjetos = insertarNumeroObjetos;
 		this.insertarNumeroObjetos.setHorizontalAlignment(SwingConstants.CENTER);
 		return insertarNumeroObjetos;
+	}
+
+	public JButton getModoSeleccion() {
+		return modoSeleccion;
+	}
+
+	public JButton setModoSeleccion(JButton moverSeleccion) {
+		this.modoSeleccion = moverSeleccion;
+		return moverSeleccion;
+	}
+
+	public JButton getModoAleatorio() {
+		return modoAleatorio;
+	}
+
+	public JButton setModoAleatorio(JButton modoAleatorio) {
+		this.modoAleatorio = modoAleatorio;
+		return modoAleatorio;
 	}
 
 }
