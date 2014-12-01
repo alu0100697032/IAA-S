@@ -8,6 +8,7 @@ package Dibujables;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
@@ -30,13 +31,23 @@ public class DibujaMatriz extends JPanel {
 		setBounds(0, 0, anchoVentana, altoVentana - 100);
 		for (int i = 0; i < entorno.getAnchoEntorno(); i++) {
 			for (int j = 0; j < entorno.getAltoEntorno(); j++) {
-				if (entorno.getDibujoEntorno()[i][j] == 0)
-					add(new DibujaCelda(Color.WHITE));
-				else if (entorno.getDibujoEntorno()[i][j] == 1)
-					add(new DibujaCelda(Color.GREEN));
-				else if (entorno.getDibujoEntorno()[i][j] == 2)
-					add(new DibujaCelda(Color.RED));
+				add(new DibujaCelda(Color.WHITE));
 			}
 		}
+	}
+	
+	public void DibujaObstaculos(Entorno entorno){
+		int contador = 0;
+		for (int i = 0; i < entorno.getAnchoEntorno(); i++) {
+			for (int j = 0; j < entorno.getAltoEntorno(); j++) {
+				if (entorno.getDibujoEntorno()[i][j] == 1)
+					getComponent(contador).setBackground(Color.GREEN);
+				contador++;	
+			}
+		}
+	}
+	
+	public void addSituarRobot (MouseListener a) {
+		this.addMouseListener(a);
 	}
 }

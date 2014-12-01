@@ -6,9 +6,13 @@
  */
 package Dibujables;
 
+import java.awt.Color;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Observable;
 
 import clases.Entorno;
@@ -27,6 +31,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 		getPanelBotones().addMoverRobotListener(new MoverRobotListener());
 		getPanelBotones().addModoAleatorio(new ModoAleatorioListener());
 		getPanelBotones().addModoSeleccion(new ModoSeleccionListener());
+		getPanelBotones().addGenerarObjetos(new GenerarObjetosListener());
 	}
 
 	@Override
@@ -57,6 +62,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 							.getInsertarNumeroObjetos().getText()));
 			//getEntorno().mostrarMatrizVirtual();
 			getPanelBotones().getReset().setEnabled(true);
+			getPanelBotones().getGenerarObjetos().setEnabled(true);
 		}
 	}
 
@@ -65,6 +71,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			getEntorno().setPosicionRobotCero();
 			getEntorno().cambiarDimensionesEntorno(0, 0, 0);
 			getPanelBotones().getCrearEntorno().setEnabled(true);
+			getPanelBotones().getGenerarObjetos().setEnabled(false);
 			getPanelBotones().getMoverRobot().setEnabled(false);
 		}
 	}
@@ -94,10 +101,53 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 		}
 	}
 	
+	
+	class GenerarObjetosListener implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			getPanelBotones().getGenerarObjetos().setEnabled(false);
+			getMatriz().DibujaObstaculos(getEntorno());
+		}
+	}
+	/*
+	 * MOUSE LISTENERS
+	 */
 	class ModoSeleccionListener implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
 			getPanelBotones().getModoAleatorio().setEnabled(false);
 			getPanelBotones().getModoSeleccion().setEnabled(false);
+			getMatriz().addSituarRobot(new SituarRobotListener());
+		}
+	}
+	
+	class SituarRobotListener implements MouseListener {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			getMatriz().getComponentAt(MouseInfo.getPointerInfo().getLocation()).setBackground(Color.RED);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 }

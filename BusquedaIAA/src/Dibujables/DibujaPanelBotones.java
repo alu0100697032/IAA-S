@@ -34,6 +34,7 @@ public class DibujaPanelBotones extends JPanel {
 	private JButton moverRobot;
 	private JButton modoAleatorio;
 	private JButton modoSeleccion;
+	private JButton generarObjetos;;
 	private JLabel anchoEntorno;
 	private JLabel altoEntorno;
 	private JLabel numeroObjetos;
@@ -54,6 +55,7 @@ public class DibujaPanelBotones extends JPanel {
 		add(setInsertarAnchoEntorno(new JTextField("10")));
 		add(setAltoEntorno(new JLabel("Alto")));
 		add(setInsertarAltoEntorno(new JTextField("10")));
+		add(setGenerarObjetos(new JButton("Generar Objetos")));
 		add(setNumeroObjetos(new JLabel("Objetos")));
 		add(setInsertarNumeroObjetos(new JTextField("10")));
 		add(setMoverRobot(new JButton("Mover Robot a:")));
@@ -84,6 +86,10 @@ public class DibujaPanelBotones extends JPanel {
 	
 	public void addModoAleatorio (ActionListener a) {
 		modoAleatorio.addActionListener(a);
+	}
+	
+	public void addGenerarObjetos (ActionListener a) {
+		generarObjetos.addActionListener(a);
 	}
 
 	/*
@@ -331,6 +337,16 @@ public class DibujaPanelBotones extends JPanel {
 	public JButton setModoAleatorio(JButton modoAleatorio) {
 		this.modoAleatorio = modoAleatorio;
 		return modoAleatorio;
+	}
+
+	public JButton getGenerarObjetos() {
+		return generarObjetos;
+	}
+
+	public JButton setGenerarObjetos(JButton generarObjetos) {
+		this.generarObjetos = generarObjetos;
+		this.generarObjetos.setEnabled(false);
+		return generarObjetos;
 	}
 
 }
