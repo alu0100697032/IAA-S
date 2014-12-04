@@ -31,7 +31,6 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 		getPanelBotones().addMoverRobotListener(new MoverRobotListener());
 		getPanelBotones().addModoAleatorio(new ModoAleatorioListener());
 		getPanelBotones().addModoSeleccion(new ModoSeleccionListener());
-		getPanelBotones().addGenerarObjetos(new GenerarObjetosListener());
 	}
 
 	@Override
@@ -62,7 +61,8 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 							.getInsertarNumeroObjetos().getText()));
 			//getEntorno().mostrarMatrizVirtual();
 			getPanelBotones().getReset().setEnabled(true);
-			getPanelBotones().getGenerarObjetos().setEnabled(true);
+			getPanelBotones().getModoAleatorio().setEnabled(true);
+			getPanelBotones().getModoSeleccion().setEnabled(true);
 		}
 	}
 
@@ -71,7 +71,6 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			getEntorno().setPosicionRobotCero();
 			getEntorno().cambiarDimensionesEntorno(0, 0, 0);
 			getPanelBotones().getCrearEntorno().setEnabled(true);
-			getPanelBotones().getGenerarObjetos().setEnabled(false);
 			getPanelBotones().getMoverRobot().setEnabled(false);
 		}
 	}
@@ -95,19 +94,12 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	
 	class ModoAleatorioListener implements ActionListener {
 		public void actionPerformed (ActionEvent e) {
-			getPanelBotones().getCrearEntorno().setEnabled(true);
 			getPanelBotones().getModoAleatorio().setEnabled(false);
 			getPanelBotones().getModoSeleccion().setEnabled(false);
-		}
-	}
-	
-	
-	class GenerarObjetosListener implements ActionListener {
-		public void actionPerformed (ActionEvent e) {
-			getPanelBotones().getGenerarObjetos().setEnabled(false);
 			getMatriz().DibujaObstaculos(getEntorno());
 		}
 	}
+	
 	/*
 	 * MOUSE LISTENERS
 	 */
