@@ -22,7 +22,7 @@ public class Robot extends Observable {
 	 * CONSTRUCTOR
 	 */
 	public Robot() {
-		setPuntoActual(new Point(0, 0));
+		setPuntoActual(new Point());
 		setPuntoAnterior(getPuntoActual());
 		vectorCostes = new double[4];
 	}

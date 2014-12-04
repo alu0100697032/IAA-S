@@ -6,7 +6,6 @@
  */
 package Dibujables;
 
-import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -31,10 +30,11 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 		getPanelBotones().addMoverRobotListener(new MoverRobotListener());
 		getPanelBotones().addModoAleatorio(new ModoAleatorioListener());
 		getPanelBotones().addModoSeleccion(new ModoSeleccionListener());
+		getPanelBotones().addSalirListener(new SalirListener());
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update (Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 		RellenarEntorno();
 		BorrarEntorno();
@@ -42,7 +42,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	class CrearEntornoListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed (ActionEvent e) {
 			getPanelBotones().getCrearEntorno().setEnabled(false);// DESABILITAMOS
 																	// EL BOTON
 			getPanelBotones().getMoverRobot().setEnabled(true);// HABILITAMOS EL
@@ -67,16 +67,23 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	class ResetListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed (ActionEvent e) {
 			getEntorno().setPosicionRobotCero();
+			getEntorno().setNumeroObjetosColocados(0);
 			getEntorno().cambiarDimensionesEntorno(0, 0, 0);
 			getPanelBotones().getCrearEntorno().setEnabled(true);
 			getPanelBotones().getMoverRobot().setEnabled(false);
 		}
 	}
 
+	class SalirListener implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			System.exit(0);
+		}
+	}
+
 	class MoverRobotListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed (ActionEvent e) {
 			getPanelBotones().getMoverRobot().setEnabled(false);
 			getEntorno().setPosicionDestinoRobot(
 					new Point(Integer.parseInt(getPanelBotones()
@@ -93,18 +100,17 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	class ModoAleatorioListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed (ActionEvent e) {
 			getPanelBotones().getModoAleatorio().setEnabled(false);
 			getPanelBotones().getModoSeleccion().setEnabled(false);
+			getEntorno().colocarRobotAleatorio();
+			getEntorno().generarObstaculosAleatorio();
 			getMatriz().DibujaObstaculos(getEntorno());
 		}
 	}
 
-	/*
-	 * MOUSE LISTENERS
-	 */
 	class ModoSeleccionListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed (ActionEvent e) {
 			getPanelBotones().getModoAleatorio().setEnabled(false);
 			getPanelBotones().getModoSeleccion().setEnabled(false);
 			getPanelBotones().getRobotRadioButton().setEnabled(true);
@@ -115,51 +121,54 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 
 	class SituarRobotListener implements MouseListener {
 		@Override
-		public void mouseClicked(MouseEvent e) {
+		public void mouseClicked (MouseEvent e) {
 			// TODO Auto-generated method stub
 			if (getPanelBotones().getRobotRadioButton().isSelected() == true) {
-				/*
-				 * getMatriz().getComponentAt(
-				 * MouseInfo.getPointerInfo().getLocation())
-				 * .setBackground(Color.RED);
-				 */
+				getEntorno().getRobot1().setPuntoAnterior(
+						getEntorno().getRobot1().getPuntoActual());
 				getEntorno().getRobot1().setPuntoActual(
-						new Point(getMatriz().getComponentAt(
-								MouseInfo.getPointerInfo().getLocation())
-								.getX(), getMatriz().getComponentAt(
-								MouseInfo.getPointerInfo().getLocation())
-								.getY()));
+						new Point(((DibujaCelda) getMatriz().getComponentAt(
+								MouseInfo.getPointerInfo().getLocation()))
+								.getPosicionCeldaX(),
+								((DibujaCelda) getMatriz().getComponentAt(
+										MouseInfo.getPointerInfo()
+												.getLocation()))
+										.getPosicionCeldaY()));
 			} else if (getPanelBotones().getObjetosRadioButton().isSelected() == true
-					&& getEntorno().getNumeroObjetos() >= getEntorno()
+					&& getEntorno().getNumeroObjetos() > getEntorno()
 							.getNumeroObjetosColocados()) {
-				getMatriz().getComponentAt(
-						MouseInfo.getPointerInfo().getLocation())
-						.setBackground(Color.GREEN);
-				getEntorno().setNumeroObjetosColocados(
-						getEntorno().getNumeroObjetosColocados() + 1);
+				getEntorno().colocarObstaculo(
+						new Point(((DibujaCelda) getMatriz().getComponentAt(
+								MouseInfo.getPointerInfo().getLocation()))
+								.getPosicionCeldaX(),
+								((DibujaCelda) getMatriz().getComponentAt(
+										MouseInfo.getPointerInfo()
+												.getLocation()))
+										.getPosicionCeldaY()));
+				RepintarObjetos();
 			}
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {
+		public void mousePressed (MouseEvent e) {
 			// TODO Auto-generated method stub
 
 		}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {
+		public void mouseReleased (MouseEvent e) {
 			// TODO Auto-generated method stub
 
 		}
 
 		@Override
-		public void mouseEntered(MouseEvent e) {
+		public void mouseEntered (MouseEvent e) {
 			// TODO Auto-generated method stub
 
 		}
 
 		@Override
-		public void mouseExited(MouseEvent e) {
+		public void mouseExited (MouseEvent e) {
 			// TODO Auto-generated method stub
 
 		}

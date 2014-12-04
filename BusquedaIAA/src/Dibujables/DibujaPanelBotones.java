@@ -29,34 +29,34 @@ public class DibujaPanelBotones extends JPanel {
 	 * ATRIBUTOS
 	 */
 	private int altoPanelBotones = 100;
-	private int margenInferior = 35;
-	private int margenSuperior = 15;
-	
+	private int margenInferior = 0;
+	private int margenSuperior = 0;
+
 	private JButton crearEntorno;
 	private JButton reset;
 	private JButton moverRobot;
 	private JButton modoAleatorio;
 	private JButton modoSeleccion;
-	private JButton generarObjetos;;
-	
+	private JButton generarObjetos;
+	private JButton salir;
+
 	private JLabel anchoEntorno;
 	private JLabel altoEntorno;
 	private JLabel numeroObjetos;
-	
+
 	private JTextField insertarAnchoEntorno;
 	private JTextField insertarAltoEntorno;
 	private JTextField insertarXDestino;
 	private JTextField insertarYDestino;
 	private JTextField insertarNumeroObjetos;
-	
+
 	private JRadioButton robotRadioButton;
 	private JRadioButton objetosRadioButton;
-	
+
 	private ButtonGroup robotObjetosButtonGroup;
 
 	public DibujaPanelBotones(int ancho, int alto) {
-		setBounds(0, alto - altoPanelBotones + margenSuperior, ancho,
-				altoPanelBotones - margenInferior);
+		setBounds(0, alto - altoPanelBotones, ancho, altoPanelBotones);
 		setLayout(new GridLayout(2, 0));
 
 		add(setCrearEntorno(new JButton("Crear Entorno")));
@@ -84,8 +84,9 @@ public class DibujaPanelBotones extends JPanel {
 		add(setInsertarAltoEntorno(new JTextField("10")));
 		add(setNumeroObjetos(new JLabel("Objetos")));
 		add(setInsertarNumeroObjetos(new JTextField("10")));
-		
+
 		add(setReset(new JButton("Reset")));
+		add(setSalir(new JButton("Salir")));
 		setVisible(true);
 	}
 
@@ -100,18 +101,22 @@ public class DibujaPanelBotones extends JPanel {
 		reset.addActionListener(a);
 	}
 
+	public void addSalirListener (ActionListener a) {
+		salir.addActionListener(a);
+	}
+
 	public void addMoverRobotListener (ActionListener a) {
 		moverRobot.addActionListener(a);
 	}
-	
+
 	public void addModoSeleccion (ActionListener a) {
 		modoSeleccion.addActionListener(a);
 	}
-	
+
 	public void addModoAleatorio (ActionListener a) {
 		modoAleatorio.addActionListener(a);
 	}
-	
+
 	public void addGenerarObjetos (ActionListener a) {
 		generarObjetos.addActionListener(a);
 	}
@@ -286,7 +291,8 @@ public class DibujaPanelBotones extends JPanel {
 	}
 
 	/**
-	 * @param insertarXDestino the insertarXDestino to set
+	 * @param insertarXDestino
+	 *            the insertarXDestino to set
 	 */
 	public JTextField setInsertarXDestino (JTextField insertarXDestino) {
 		this.insertarXDestino = insertarXDestino;
@@ -302,7 +308,8 @@ public class DibujaPanelBotones extends JPanel {
 	}
 
 	/**
-	 * @param insertarYDestino the insertarYDestino to set
+	 * @param insertarYDestino
+	 *            the insertarYDestino to set
 	 */
 	public JTextField setInsertarYDestino (JTextField insertarYDestino) {
 		this.insertarYDestino = insertarYDestino;
@@ -318,7 +325,8 @@ public class DibujaPanelBotones extends JPanel {
 	}
 
 	/**
-	 * @param numeroObjetos the numeroObjetos to set
+	 * @param numeroObjetos
+	 *            the numeroObjetos to set
 	 */
 	public JLabel setNumeroObjetos (JLabel numeroObjetos) {
 		this.numeroObjetos = numeroObjetos;
@@ -336,60 +344,81 @@ public class DibujaPanelBotones extends JPanel {
 	}
 
 	/**
-	 * @param insertarNumeroObjetos the insertarNumeroObjetos to set
+	 * @param insertarNumeroObjetos
+	 *            the insertarNumeroObjetos to set
 	 */
 	public JTextField setInsertarNumeroObjetos (JTextField insertarNumeroObjetos) {
 		this.insertarNumeroObjetos = insertarNumeroObjetos;
-		this.insertarNumeroObjetos.setHorizontalAlignment(SwingConstants.CENTER);
+		this.insertarNumeroObjetos
+				.setHorizontalAlignment(SwingConstants.CENTER);
 		return insertarNumeroObjetos;
 	}
 
-	public JButton getModoSeleccion() {
+	public JButton getModoSeleccion () {
 		return modoSeleccion;
 	}
 
-	public JButton setModoSeleccion(JButton moverSeleccion) {
+	public JButton setModoSeleccion (JButton moverSeleccion) {
 		this.modoSeleccion = moverSeleccion;
 		this.modoSeleccion.setEnabled(false);
 		return moverSeleccion;
 	}
 
-	public JButton getModoAleatorio() {
+	public JButton getModoAleatorio () {
 		return modoAleatorio;
 	}
 
-	public JButton setModoAleatorio(JButton modoAleatorio) {
+	public JButton setModoAleatorio (JButton modoAleatorio) {
 		this.modoAleatorio = modoAleatorio;
 		this.modoAleatorio.setEnabled(false);
 		return modoAleatorio;
 	}
-	
-	public JRadioButton getRobotRadioButton() {
+
+	public JRadioButton getRobotRadioButton () {
 		return robotRadioButton;
 	}
 
-	public JRadioButton setRobotRadioButton(JRadioButton robotRadioButton) {
+	public JRadioButton setRobotRadioButton (JRadioButton robotRadioButton) {
 		this.robotRadioButton = robotRadioButton;
+		this.robotRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
 		this.robotRadioButton.setEnabled(false);
 		return robotRadioButton;
 	}
 
-	public JRadioButton getObjetosRadioButton() {
+	public JRadioButton getObjetosRadioButton () {
 		return objetosRadioButton;
 	}
 
-	public JRadioButton setObjetosRadioButton(JRadioButton objetosRadioButton) {
+	public JRadioButton setObjetosRadioButton (JRadioButton objetosRadioButton) {
 		this.objetosRadioButton = objetosRadioButton;
+		this.objetosRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
 		this.objetosRadioButton.setEnabled(false);
 		return objetosRadioButton;
 	}
 
-	public ButtonGroup getRobotObjetosButtonGroup() {
+	public ButtonGroup getRobotObjetosButtonGroup () {
 		return robotObjetosButtonGroup;
 	}
 
-	public ButtonGroup setRobotObjetosButtonGroup(ButtonGroup robotObjetosButtonGroup) {
+	public ButtonGroup setRobotObjetosButtonGroup (
+			ButtonGroup robotObjetosButtonGroup) {
 		this.robotObjetosButtonGroup = robotObjetosButtonGroup;
 		return this.robotObjetosButtonGroup;
+	}
+
+	/**
+	 * @return the salir
+	 */
+	public JButton getSalir () {
+		return salir;
+	}
+
+	/**
+	 * @param salir
+	 *            the salir to set
+	 */
+	public JButton setSalir (JButton salir) {
+		this.salir = salir;
+		return salir;
 	}
 }
