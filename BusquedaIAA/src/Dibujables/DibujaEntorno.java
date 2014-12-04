@@ -33,7 +33,7 @@ abstract class DibujaEntorno implements Observer {
 		entornoFrame = new JFrame("Entorno");
 		entornoFrame.setLayout(null);
 		entornoFrame.setResizable(false);
-		entornoFrame.setBounds(0, 0, width+margenFrame, height+margenFrame);
+		entornoFrame.setBounds(0, 0, width + margenFrame, height + margenFrame);
 		entornoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		entornoFrame
 				.add(setPanelBotones(new DibujaPanelBotones(width, height)));
@@ -52,7 +52,6 @@ abstract class DibujaEntorno implements Observer {
 			entornoFrame.setVisible(true);
 			MatrizRellena = true;
 		}
-		// System.out.println(getMatriz().getComponent(getEntorno().getPosicionEnLaMatrizRobot()).getClass().getName());
 	}
 
 	public void BorrarEntorno() {
@@ -66,14 +65,20 @@ abstract class DibujaEntorno implements Observer {
 	}
 
 	public void RepintarRobot() {
-		getMatriz().getComponent(getEntorno().getPosicionAnteriorRobot())
-		.setBackground(Color.WHITE);
-		getMatriz().getComponent(getEntorno().getPosicionActualRobot())
-				.setBackground(Color.RED);
-		getMatriz().repaint();
-		getMatriz().setVisible(true);
+		if (getEntorno().getPosicionAnteriorRobot() != getEntorno()
+				.getPosicionActualRobot()) {
+			getMatriz().getComponent(getEntorno().getPosicionAnteriorRobot())
+					.setBackground(Color.WHITE);
+			getMatriz().getComponent(getEntorno().getPosicionActualRobot())
+					.setBackground(Color.RED);
+			getMatriz().repaint();
+			getMatriz().setVisible(true);
+		}
 	}
 
+	/*
+	 * METODO DE ACCESO A LOS ATRIBUTOS
+	 */
 	public Entorno getEntorno() {
 		return entorno;
 	}
@@ -125,14 +130,15 @@ abstract class DibujaEntorno implements Observer {
 	/**
 	 * @return the margenFrame
 	 */
-	public int getMargenFrame () {
+	public int getMargenFrame() {
 		return margenFrame;
 	}
 
 	/**
-	 * @param margenFrame the margenFrame to set
+	 * @param margenFrame
+	 *            the margenFrame to set
 	 */
-	public void setMargenFrame (int margenFrame) {
+	public void setMargenFrame(int margenFrame) {
 		this.margenFrame = margenFrame;
 	}
 

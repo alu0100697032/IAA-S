@@ -10,6 +10,7 @@ public class Entorno extends Observable implements Runnable {
 	private int anchoEntorno;
 	private int altoEntorno;
 	private int numeroObjetos;
+	private int numeroObjetosColocados;
 	private int numeroCasillas;
 	private int[][] DibujoEntorno;
 	private Robot robot1;
@@ -25,6 +26,7 @@ public class Entorno extends Observable implements Runnable {
 		setAltoEntorno(alto);
 		setAnchoEntorno(ancho);
 		setNumeroObjetos(numeroObjetos);
+		setNumeroObjetosColocados(0);
 		setNumeroCasillas(ancho * alto);
 		DibujoEntorno = new int[ancho][alto];
 		for (int i = 0; i < ancho; i++)
@@ -194,5 +196,13 @@ public class Entorno extends Observable implements Runnable {
 	 */
 	public void setAltoEntorno(int altoEntorno) {
 		this.altoEntorno = altoEntorno;
+	}
+
+	public int getNumeroObjetosColocados() {
+		return numeroObjetosColocados;
+	}
+
+	public void setNumeroObjetosColocados(int numeroObjetosColocados) {
+		this.numeroObjetosColocados = numeroObjetosColocados;
 	}
 }

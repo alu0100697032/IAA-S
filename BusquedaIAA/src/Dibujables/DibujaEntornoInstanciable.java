@@ -34,7 +34,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	@Override
-	public void update (Observable arg0, Object arg1) {
+	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 		RellenarEntorno();
 		BorrarEntorno();
@@ -42,7 +42,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	class CrearEntornoListener implements ActionListener {
-		public void actionPerformed (ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			getPanelBotones().getCrearEntorno().setEnabled(false);// DESABILITAMOS
 																	// EL BOTON
 			getPanelBotones().getMoverRobot().setEnabled(true);// HABILITAMOS EL
@@ -59,7 +59,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 							.getText()),
 					Integer.parseInt(getPanelBotones()
 							.getInsertarNumeroObjetos().getText()));
-			//getEntorno().mostrarMatrizVirtual();
+			// getEntorno().mostrarMatrizVirtual();
 			getPanelBotones().getReset().setEnabled(true);
 			getPanelBotones().getModoAleatorio().setEnabled(true);
 			getPanelBotones().getModoSeleccion().setEnabled(true);
@@ -67,7 +67,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	class ResetListener implements ActionListener {
-		public void actionPerformed (ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			getEntorno().setPosicionRobotCero();
 			getEntorno().cambiarDimensionesEntorno(0, 0, 0);
 			getPanelBotones().getCrearEntorno().setEnabled(true);
@@ -76,7 +76,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	class MoverRobotListener implements ActionListener {
-		public void actionPerformed (ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			getPanelBotones().getMoverRobot().setEnabled(false);
 			getEntorno().setPosicionDestinoRobot(
 					new Point(Integer.parseInt(getPanelBotones()
@@ -91,55 +91,77 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			}
 		}
 	}
-	
+
 	class ModoAleatorioListener implements ActionListener {
-		public void actionPerformed (ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			getPanelBotones().getModoAleatorio().setEnabled(false);
 			getPanelBotones().getModoSeleccion().setEnabled(false);
 			getMatriz().DibujaObstaculos(getEntorno());
 		}
 	}
-	
+
 	/*
 	 * MOUSE LISTENERS
 	 */
 	class ModoSeleccionListener implements ActionListener {
-		public void actionPerformed (ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			getPanelBotones().getModoAleatorio().setEnabled(false);
 			getPanelBotones().getModoSeleccion().setEnabled(false);
+			getPanelBotones().getRobotRadioButton().setEnabled(true);
+			getPanelBotones().getObjetosRadioButton().setEnabled(true);
 			getMatriz().addSituarRobot(new SituarRobotListener());
 		}
 	}
-	
+
 	class SituarRobotListener implements MouseListener {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
-			getMatriz().getComponentAt(MouseInfo.getPointerInfo().getLocation()).setBackground(Color.RED);
+			if (getPanelBotones().getRobotRadioButton().isSelected() == true) {
+				/*
+				 * getMatriz().getComponentAt(
+				 * MouseInfo.getPointerInfo().getLocation())
+				 * .setBackground(Color.RED);
+				 */
+				getEntorno().getRobot1().setPuntoActual(
+						new Point(getMatriz().getComponentAt(
+								MouseInfo.getPointerInfo().getLocation())
+								.getX(), getMatriz().getComponentAt(
+								MouseInfo.getPointerInfo().getLocation())
+								.getY()));
+			} else if (getPanelBotones().getObjetosRadioButton().isSelected() == true
+					&& getEntorno().getNumeroObjetos() >= getEntorno()
+							.getNumeroObjetosColocados()) {
+				getMatriz().getComponentAt(
+						MouseInfo.getPointerInfo().getLocation())
+						.setBackground(Color.GREEN);
+				getEntorno().setNumeroObjetosColocados(
+						getEntorno().getNumeroObjetosColocados() + 1);
+			}
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 }

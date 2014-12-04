@@ -242,22 +242,3 @@ public class Robot extends Observable {
 	}
 
 }
-
-/*@Override
-public void run () {
-	// TODO Auto-generated method stub
-	this.Moverse();
-}*/
-
-/*public void Moverse () {
-	while (puntoActual.equals(puntoDestino) == false) {
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		puntoAnterior = puntoActual;
-		seleccionMovimiento();
-	}
-}*/
