@@ -11,17 +11,26 @@ public class Robot extends Observable {
 	private Point puntoActual;
 	private Point puntoAnterior;
 	private Point puntoDestino;
+
 	private boolean sensorArriba;
 	private boolean sensorAbajo;
 	private boolean sensorDerecha;
 	private boolean sensorIzquierda;
+
 	private double[] vectorCostes;
+	private boolean[][] mapa;
+	private boolean[] vectorSensores;
+	
+	private int anchoMapa;
+	private int altoMapa;
+
 	private static double valorAlto = 9999999;
 
 	/*
 	 * CONSTRUCTOR
 	 */
 	public Robot() {
+		setVectorSensores(new boolean[4]);
 		setPuntoActual(new Point());
 		setPuntoAnterior(getPuntoActual());
 		vectorCostes = new double[4];
@@ -51,13 +60,17 @@ public class Robot extends Observable {
 		}
 		if (costeMinimo == vectorCostes[0] && moverseDerechaPosible() == true)
 			moverseDerecha();
-		else if (costeMinimo == vectorCostes[1] && moverseIzquierdaPosible() == true){
+		else if (costeMinimo == vectorCostes[1]
+				&& moverseIzquierdaPosible() == true) {
 			moverseIzquierda();
-		}
-		else if (costeMinimo == vectorCostes[2] && moverseArribaPosible() == true)
+		} else if (costeMinimo == vectorCostes[2]
+				&& moverseArribaPosible() == true)
 			moverseArriba();
-		else if (costeMinimo == vectorCostes[3] && moverseAbajoPosible() == true)
+		else if (costeMinimo == vectorCostes[3]
+				&& moverseAbajoPosible() == true)
 			moverseAbajo();
+		else
+			System.out.println("Mecawen");
 	}
 
 	/*
@@ -133,6 +146,83 @@ public class Robot extends Observable {
 				.distance(puntoDestino));
 	}
 
+	/*
+	 * CASILLAS ADYACENTES
+	 */
+	public boolean getCasillaDerecha(){
+		if(getPuntoActual().x+1 < anchoMapa)
+			return mapa[getPuntoActual().x+1][getPuntoActual().y];
+		else
+			return false;
+	}
+	public boolean getCasillaIzquierda(){
+		if(getPuntoActual().x-1 > 0)
+			return mapa[getPuntoActual().x-1][getPuntoActual().y];
+		else 
+			return false;
+	}
+	public boolean getCasillaAbajo(){
+		if(getPuntoActual().y+1 < altoMapa)
+			return mapa[getPuntoActual().x][getPuntoActual().y+1];
+		else 
+			return false;
+	}
+	public boolean getCasillaArriba(){
+		if(getPuntoActual().y-1 > 0)
+			return mapa[getPuntoActual().x][getPuntoActual().y-1];
+		else 
+			return false;
+	}
+	/*
+	 * ACTUALIZAR EL MAPA QUE VA APRENDIENDO EL ROBOT
+	 */
+	public void actualizarMapa () {
+		vectorSensores[0]=sensorArriba;
+		vectorSensores[1]=sensorAbajo;
+		vectorSensores[2]=sensorDerecha;
+		vectorSensores[3]=sensorIzquierda;
+		int contador = 0;
+		if (puntoActual.x + 1 < anchoMapa)
+			mapa[puntoActual.x + 1][puntoActual.y] = moverseDerechaPosible();
+		if (puntoActual.x - 1 > 0)
+			mapa[puntoActual.x + -1][puntoActual.y] = moverseIzquierdaPosible();
+		if (puntoActual.x + 1 < altoMapa)
+			mapa[puntoActual.x][puntoActual.y + 1] = moverseAbajoPosible();
+		if (puntoActual.x + 1 > 0)
+			mapa[puntoActual.x][puntoActual.y - 1] = moverseArribaPosible();
+		for(int i = 0; i < vectorSensores.length; i++){
+			if(vectorSensores[i]==true)
+				contador++;
+		}
+		if(contador >= 3)
+			mapa[puntoActual.x][puntoActual.y] = false;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	 * METODOS DE ACCESO A LOS ATRIBUTOS
+	 */
 
 	/**
 	 * @return the sensorArriba
@@ -239,6 +329,63 @@ public class Robot extends Observable {
 	 */
 	public void setPuntoDestino (Point puntoDestino) {
 		this.puntoDestino = puntoDestino;
+	}
+
+	/**
+	 * @return the mapa
+	 */
+	public boolean[][] getMapa () {
+		return mapa;
+	}
+
+	/**
+	 * @param mapa
+	 *            the mapa to set
+	 */
+	public void setMapa (boolean[][] mapa) {
+		this.mapa = mapa;
+	}
+
+	/**
+	 * @return the altoMapa
+	 */
+	public int getAltoMapa () {
+		return altoMapa;
+	}
+
+	/**
+	 * @param altoMapa the altoMapa to set
+	 */
+	public void setAltoMapa (int altoMapa) {
+		this.altoMapa = altoMapa;
+	}
+
+	/**
+	 * @return the anchoMapa
+	 */
+	public int getAnchoMapa () {
+		return anchoMapa;
+	}
+
+	/**
+	 * @param anchoMapa the anchoMapa to set
+	 */
+	public void setAnchoMapa (int anchoMapa) {
+		this.anchoMapa = anchoMapa;
+	}
+
+	/**
+	 * @return the vectorSensores
+	 */
+	public boolean[] getVectorSensores () {
+		return vectorSensores;
+	}
+
+	/**
+	 * @param vectorSensores the vectorSensores to set
+	 */
+	public void setVectorSensores (boolean[] vectorSensores) {
+		this.vectorSensores = vectorSensores;
 	}
 
 }

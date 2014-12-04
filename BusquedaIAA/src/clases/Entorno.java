@@ -71,8 +71,9 @@ public class Entorno extends Observable implements Runnable {
 	 */
 	public void colocarRobotAleatorio () {
 		getRobot1().setPuntoActual(
-				new Point((int) Math.floor(Math.random() * (anchoEntorno - 1)),
-						(int) Math.floor(Math.random() * (altoEntorno - 1))));
+				new Point((int) Math.floor(Math.random() * (altoEntorno - 1)),
+						(int) Math.floor(Math.random() * (anchoEntorno - 1))));
+		DibujoEntorno[getRobot1().getPuntoActual().x][getRobot1().getPuntoActual().y] = 2;
 		getRobot1().setPuntoAnterior(getRobot1().getPuntoActual());
 	}
 
@@ -103,6 +104,9 @@ public class Entorno extends Observable implements Runnable {
 	}
 
 	public void Moverse () {
+		getRobot1().setAnchoMapa(getAltoEntorno());
+		getRobot1().setAltoMapa(getAnchoEntorno());
+		getRobot1().setMapa(new boolean[getAnchoEntorno()][getAltoEntorno()]);
 		while (robot1.getPuntoActual().equals(robot1.getPuntoDestino()) == false) {
 			try {
 				Thread.sleep(1000);
@@ -110,6 +114,7 @@ public class Entorno extends Observable implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			//robot1.actualizarMapa();
 			robot1.setPuntoAnterior(robot1.getPuntoActual());
 			DibujoEntorno[(int) robot1.getPuntoAnterior().getY()][(int) robot1
 					.getPuntoAnterior().getX()] = 0;
