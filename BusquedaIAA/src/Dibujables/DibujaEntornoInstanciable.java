@@ -34,7 +34,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	@Override
-	public void update (Observable arg0, Object arg1) {
+	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 		RellenarEntorno();
 		BorrarEntorno();
@@ -42,7 +42,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	class CrearEntornoListener implements ActionListener {
-		public void actionPerformed (ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			getPanelBotones().getCrearEntorno().setEnabled(false);// DESABILITAMOS
 																	// EL BOTON
 			getPanelBotones().getMoverRobot().setEnabled(true);// HABILITAMOS EL
@@ -67,7 +67,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	class ResetListener implements ActionListener {
-		public void actionPerformed (ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			getEntorno().setPosicionRobotCero();
 			getEntorno().setNumeroObjetosColocados(0);
 			getEntorno().cambiarDimensionesEntorno(0, 0, 0);
@@ -77,13 +77,13 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	class SalirListener implements ActionListener {
-		public void actionPerformed (ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
 		}
 	}
 
 	class MoverRobotListener implements ActionListener {
-		public void actionPerformed (ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			getPanelBotones().getMoverRobot().setEnabled(false);
 			getEntorno().setPosicionDestinoRobot(
 					new Point(Integer.parseInt(getPanelBotones()
@@ -100,7 +100,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	class ModoAleatorioListener implements ActionListener {
-		public void actionPerformed (ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			getPanelBotones().getModoAleatorio().setEnabled(false);
 			getPanelBotones().getModoSeleccion().setEnabled(false);
 			getEntorno().colocarRobotAleatorio();
@@ -110,7 +110,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 	}
 
 	class ModoSeleccionListener implements ActionListener {
-		public void actionPerformed (ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			getPanelBotones().getModoAleatorio().setEnabled(false);
 			getPanelBotones().getModoSeleccion().setEnabled(false);
 			getPanelBotones().getRobotRadioButton().setEnabled(true);
@@ -121,9 +121,16 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 
 	class SituarRobotListener implements MouseListener {
 		@Override
-		public void mouseClicked (MouseEvent e) {
+		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
-			if (getPanelBotones().getRobotRadioButton().isSelected() == true) {
+
+			// SI EL RADIOBUTTON DEL ROBOT ESTA SELECCIONADO Y LO QUE SE CLICA
+			// ES UNA CELDA...
+			if (getPanelBotones().getRobotRadioButton().isSelected() == true
+					&& getMatriz().getComponentAt(
+							MouseInfo.getPointerInfo().getLocation())
+							.getClass() == DibujaCelda.class) {
+
 				getEntorno().getRobot1().setPuntoAnterior(
 						getEntorno().getRobot1().getPuntoActual());
 				getEntorno().getRobot1().setPuntoActual(
@@ -134,9 +141,16 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 										MouseInfo.getPointerInfo()
 												.getLocation()))
 										.getPosicionCeldaY()));
+
+				// SI EL RADIOBUTTON DE LOS OBJETOS ESTA SELECCIONADO, NO SE HAN
+				// COLOCADO TODOS LOS OBJETOS Y LO QUE SE CLICA ES UNA CELDA...
 			} else if (getPanelBotones().getObjetosRadioButton().isSelected() == true
 					&& getEntorno().getNumeroObjetos() > getEntorno()
-							.getNumeroObjetosColocados()) {
+							.getNumeroObjetosColocados()
+					&& getMatriz().getComponentAt(
+							MouseInfo.getPointerInfo().getLocation())
+							.getClass() == DibujaCelda.class) {
+
 				getEntorno().colocarObstaculo(
 						new Point(((DibujaCelda) getMatriz().getComponentAt(
 								MouseInfo.getPointerInfo().getLocation()))
@@ -150,25 +164,25 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 		}
 
 		@Override
-		public void mousePressed (MouseEvent e) {
+		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
 
 		}
 
 		@Override
-		public void mouseReleased (MouseEvent e) {
+		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
 
 		}
 
 		@Override
-		public void mouseEntered (MouseEvent e) {
+		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
 
 		}
 
 		@Override
-		public void mouseExited (MouseEvent e) {
+		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
 
 		}

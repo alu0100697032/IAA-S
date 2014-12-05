@@ -16,6 +16,7 @@ public class Robot extends Observable {
 	private boolean sensorAbajo;
 	private boolean sensorDerecha;
 	private boolean sensorIzquierda;
+	private boolean pararMovimiento;
 
 	private double[] vectorCostes;
 	private boolean[][] mapa;
@@ -36,21 +37,32 @@ public class Robot extends Observable {
 		vectorCostes = new double[4];
 	}
 
+	public void inicializarMapa(int ancho, int alto){
+		setAnchoMapa(ancho);
+		setAltoMapa(alto);
+		setMapa(new boolean[anchoMapa][altoMapa]);
+		for (int i = 0; i < anchoMapa; i++)
+			for (int j = 0; j < altoMapa; j++)
+				mapa[i][j] = true;
+	}
+	/*
+	 * SELECCION DE MOVIMIENTO
+	 */
 	public void seleccionMovimiento () {
 		double costeMinimo = valorAlto;
-		if (moverseDerechaPosible() == true)
+		if (getCasillaDerecha() == true)
 			vectorCostes[0] = costeMoverseDerecha();
 		else
 			vectorCostes[0] = valorAlto;
-		if (moverseIzquierdaPosible() == true)
+		if (getCasillaIzquierda() == true)
 			vectorCostes[1] = costeMoverseIzquierda();
 		else
 			vectorCostes[1] = valorAlto;
-		if (moverseArribaPosible() == true)
+		if (getCasillaArriba() == true)
 			vectorCostes[2] = costeMoverseArriba();
 		else
 			vectorCostes[2] = valorAlto;
-		if (moverseAbajoPosible() == true)
+		if (getCasillaAbajo() == true)
 			vectorCostes[3] = costeMoverseAbajo();
 		else
 			vectorCostes[3] = valorAlto;
@@ -58,19 +70,21 @@ public class Robot extends Observable {
 			if (costeMinimo > vectorCostes[i])
 				costeMinimo = vectorCostes[i];
 		}
-		if (costeMinimo == vectorCostes[0] && moverseDerechaPosible() == true)
+		if (costeMinimo == vectorCostes[0] && getCasillaDerecha() == true)
 			moverseDerecha();
 		else if (costeMinimo == vectorCostes[1]
-				&& moverseIzquierdaPosible() == true) {
+				&& getCasillaIzquierda() == true) {
 			moverseIzquierda();
 		} else if (costeMinimo == vectorCostes[2]
-				&& moverseArribaPosible() == true)
+				&& getCasillaArriba() == true)
 			moverseArriba();
 		else if (costeMinimo == vectorCostes[3]
-				&& moverseAbajoPosible() == true)
+				&& getCasillaAbajo() == true)
 			moverseAbajo();
-		else
+		else{
+			setPararMovimiento(true);
 			System.out.println("Mecawen");
+		}
 	}
 
 	/*
@@ -177,18 +191,30 @@ public class Robot extends Observable {
 	 * ACTUALIZAR EL MAPA QUE VA APRENDIENDO EL ROBOT
 	 */
 	public void actualizarMapa () {
-		vectorSensores[0]=sensorArriba;
-		vectorSensores[1]=sensorAbajo;
-		vectorSensores[2]=sensorDerecha;
-		vectorSensores[3]=sensorIzquierda;
+		if(getCasillaArriba() == true)
+			vectorSensores[0]=sensorArriba;
+		else 
+			vectorSensores[0] = false;
+		if(getCasillaAbajo() == true)
+			vectorSensores[1]=sensorAbajo;
+		else
+			vectorSensores[1] = false;
+		if(getCasillaDerecha() == true)
+			vectorSensores[2]=sensorDerecha;
+		else
+			vectorSensores[2] = false;
+		if(getCasillaIzquierda() == true)
+			vectorSensores[3]=sensorIzquierda;
+		else
+			vectorSensores[3] = false;
 		int contador = 0;
-		if (puntoActual.x + 1 < anchoMapa)
+		if (puntoActual.x + 1 < anchoMapa && mapa[puntoActual.x + 1][puntoActual.y] == true)
 			mapa[puntoActual.x + 1][puntoActual.y] = moverseDerechaPosible();
-		if (puntoActual.x - 1 > 0)
+		if (puntoActual.x - 1 > 0 && mapa[puntoActual.x + -1][puntoActual.y] == true)
 			mapa[puntoActual.x + -1][puntoActual.y] = moverseIzquierdaPosible();
-		if (puntoActual.x + 1 < altoMapa)
+		if (puntoActual.y + 1 < altoMapa && mapa[puntoActual.x][puntoActual.y + 1] == true)
 			mapa[puntoActual.x][puntoActual.y + 1] = moverseAbajoPosible();
-		if (puntoActual.x + 1 > 0)
+		if (puntoActual.y - 1 > 0 && mapa[puntoActual.x][puntoActual.y - 1] == true)
 			mapa[puntoActual.x][puntoActual.y - 1] = moverseArribaPosible();
 		for(int i = 0; i < vectorSensores.length; i++){
 			if(vectorSensores[i]==true)
@@ -386,6 +412,14 @@ public class Robot extends Observable {
 	 */
 	public void setVectorSensores (boolean[] vectorSensores) {
 		this.vectorSensores = vectorSensores;
+	}
+
+	public boolean getPararMovimiento() {
+		return pararMovimiento;
+	}
+
+	public void setPararMovimiento(boolean pararMovimiento) {
+		this.pararMovimiento = pararMovimiento;
 	}
 
 }
