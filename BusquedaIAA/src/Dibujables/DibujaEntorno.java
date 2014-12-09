@@ -38,7 +38,8 @@ abstract class DibujaEntorno implements Observer {
 		entornoFrame.setLayout(null);
 		entornoFrame.setResizable(false);
 		entornoFrame.setUndecorated(true);
-		device.setFullScreenWindow(entornoFrame);
+		entornoFrame.setBounds(0, 0, width, height);
+		//device.setFullScreenWindow(entornoFrame);
 		entornoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		entornoFrame
 				.add(setPanelBotones(new DibujaPanelBotones(width, height)));

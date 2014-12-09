@@ -91,6 +91,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 							.parseInt(getPanelBotones().getInsertarYDestino()
 									.getText())));
 			try {
+				getEntorno().mostrarMatrizVirtual();
 				getEntorno().moverRobot();
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
@@ -106,6 +107,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			getEntorno().colocarRobotAleatorio();
 			getEntorno().generarObstaculosAleatorio();
 			getMatriz().DibujaObstaculos(getEntorno());
+			//getEntorno().mostrarMatrizVirtual();
 		}
 	}
 
@@ -116,6 +118,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			getPanelBotones().getRobotRadioButton().setEnabled(true);
 			getPanelBotones().getObjetosRadioButton().setEnabled(true);
 			getMatriz().addSituarRobot(new SituarRobotListener());
+			//getEntorno().mostrarMatrizVirtual();
 		}
 	}
 

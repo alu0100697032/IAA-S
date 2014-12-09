@@ -20,8 +20,9 @@ public class Robot extends Observable {
 
 	private double[] vectorCostes;
 	private boolean[][] mapa;
+	private boolean[][] visitados;
 	private boolean[] vectorSensores;
-	
+
 	private int anchoMapa;
 	private int altoMapa;
 
@@ -37,14 +38,21 @@ public class Robot extends Observable {
 		vectorCostes = new double[4];
 	}
 
-	public void inicializarMapa(int ancho, int alto){
+	public void inicializarMapa (int ancho, int alto) {
 		setAnchoMapa(ancho);
 		setAltoMapa(alto);
+
 		setMapa(new boolean[anchoMapa][altoMapa]);
 		for (int i = 0; i < anchoMapa; i++)
 			for (int j = 0; j < altoMapa; j++)
 				mapa[i][j] = true;
+
+		setVisitados(new boolean[anchoMapa][altoMapa]);
+		for (int i = 0; i < anchoMapa; i++)
+			for (int j = 0; j < altoMapa; j++)
+				visitados[i][j] = false;
 	}
+
 	/*
 	 * SELECCION DE MOVIMIENTO
 	 */
@@ -70,50 +78,96 @@ public class Robot extends Observable {
 			if (costeMinimo > vectorCostes[i])
 				costeMinimo = vectorCostes[i];
 		}
+		// PRIMERA PASADA COMPRUEBA QUE NO HAYAN CASILLAS SIN VISITAR
+		// EN EL CASO DE QUE TODAS HAYAN SIDO VISITADAS SEGUNDA PASADA
 		if (costeMinimo == vectorCostes[0] && getCasillaDerecha() == true)
 			moverseDerecha();
 		else if (costeMinimo == vectorCostes[1]
 				&& getCasillaIzquierda() == true) {
 			moverseIzquierda();
-		} else if (costeMinimo == vectorCostes[2]
-				&& getCasillaArriba() == true)
+		} else if (costeMinimo == vectorCostes[2] && getCasillaArriba() == true)
 			moverseArriba();
-		else if (costeMinimo == vectorCostes[3]
-				&& getCasillaAbajo() == true)
+		else if (costeMinimo == vectorCostes[3] && getCasillaAbajo() == true)
 			moverseAbajo();
-		else{
+		else {
+
 			setPararMovimiento(true);
-			System.out.println("Mecawen");
 		}
 	}
 
 	/*
-	 * COMPROBAR QUE SE PUEDE MOVER
+	 * ACTUALIZAR EL MAPA QUE VA APRENDIENDO EL ROBOT
 	 */
-	public boolean moverseDerechaPosible () {
-		if (sensorDerecha == false)
-			return true;
+	public void actualizarMapa () {
+		if (getCasillaArriba() == true)
+			vectorSensores[0] = sensorArriba;
+		else
+			vectorSensores[0] = false;
+		if (getCasillaAbajo() == true)
+			vectorSensores[1] = sensorAbajo;
+		else
+			vectorSensores[1] = false;
+		if (getCasillaDerecha() == true)
+			vectorSensores[2] = sensorDerecha;
+		else
+			vectorSensores[2] = false;
+		if (getCasillaIzquierda() == true)
+			vectorSensores[3] = sensorIzquierda;
+		else
+			vectorSensores[3] = false;
+
+		if (puntoActual.x + 1 < anchoMapa
+				&& mapa[puntoActual.x + 1][puntoActual.y] == true)
+			mapa[puntoActual.x + 1][puntoActual.y] = vectorSensores[2];
+		if (puntoActual.x - 1 > 0
+				&& mapa[puntoActual.x - 1][puntoActual.y] == true)
+			mapa[puntoActual.x + -1][puntoActual.y] = vectorSensores[3];
+		if (puntoActual.y + 1 < altoMapa
+				&& mapa[puntoActual.x][puntoActual.y + 1] == true)
+			mapa[puntoActual.x][puntoActual.y + 1] = vectorSensores[1];
+		if (puntoActual.y - 1 > 0
+				&& mapa[puntoActual.x][puntoActual.y - 1] == true)
+			mapa[puntoActual.x][puntoActual.y - 1] = vectorSensores[0];
+
+		int contador = 0;
+
+		for (int i = 0; i < vectorSensores.length; i++) {
+			if (vectorSensores[i] == false)
+				contador++;
+		}
+		if (contador >= 3) {
+			mapa[puntoActual.x][puntoActual.y] = false;
+			System.out.println("Tapado " + puntoActual.x + "," + puntoActual.y);
+		}
+	}
+
+	/*
+	 * CASILLAS ADYACENTES
+	 */
+	public boolean getCasillaDerecha () {
+		if (getPuntoActual().x + 1 < anchoMapa)
+			return mapa[getPuntoActual().x + 1][getPuntoActual().y];
 		else
 			return false;
 	}
 
-	public boolean moverseIzquierdaPosible () {
-		if (sensorIzquierda == false)
-			return true;
+	public boolean getCasillaIzquierda () {
+		if (getPuntoActual().x - 1 >= 0)
+			return mapa[getPuntoActual().x - 1][getPuntoActual().y];
 		else
 			return false;
 	}
 
-	public boolean moverseArribaPosible () {
-		if (sensorArriba == false)
-			return true;
+	public boolean getCasillaAbajo () {
+		if (getPuntoActual().y + 1 < altoMapa)
+			return mapa[getPuntoActual().x][getPuntoActual().y + 1];
 		else
 			return false;
 	}
 
-	public boolean moverseAbajoPosible () {
-		if (sensorAbajo == false)
-			return true;
+	public boolean getCasillaArriba () {
+		if (getPuntoActual().y - 1 >= 0)
+			return mapa[getPuntoActual().x][getPuntoActual().y - 1];
 		else
 			return false;
 	}
@@ -160,92 +214,10 @@ public class Robot extends Observable {
 				.distance(puntoDestino));
 	}
 
-	/*
-	 * CASILLAS ADYACENTES
-	 */
-	public boolean getCasillaDerecha(){
-		if(getPuntoActual().x+1 < anchoMapa)
-			return mapa[getPuntoActual().x+1][getPuntoActual().y];
-		else
-			return false;
-	}
-	public boolean getCasillaIzquierda(){
-		if(getPuntoActual().x-1 > 0)
-			return mapa[getPuntoActual().x-1][getPuntoActual().y];
-		else 
-			return false;
-	}
-	public boolean getCasillaAbajo(){
-		if(getPuntoActual().y+1 < altoMapa)
-			return mapa[getPuntoActual().x][getPuntoActual().y+1];
-		else 
-			return false;
-	}
-	public boolean getCasillaArriba(){
-		if(getPuntoActual().y-1 > 0)
-			return mapa[getPuntoActual().x][getPuntoActual().y-1];
-		else 
-			return false;
-	}
-	/*
-	 * ACTUALIZAR EL MAPA QUE VA APRENDIENDO EL ROBOT
-	 */
-	public void actualizarMapa () {
-		if(getCasillaArriba() == true)
-			vectorSensores[0]=sensorArriba;
-		else 
-			vectorSensores[0] = false;
-		if(getCasillaAbajo() == true)
-			vectorSensores[1]=sensorAbajo;
-		else
-			vectorSensores[1] = false;
-		if(getCasillaDerecha() == true)
-			vectorSensores[2]=sensorDerecha;
-		else
-			vectorSensores[2] = false;
-		if(getCasillaIzquierda() == true)
-			vectorSensores[3]=sensorIzquierda;
-		else
-			vectorSensores[3] = false;
-		int contador = 0;
-		if (puntoActual.x + 1 < anchoMapa && mapa[puntoActual.x + 1][puntoActual.y] == true)
-			mapa[puntoActual.x + 1][puntoActual.y] = moverseDerechaPosible();
-		if (puntoActual.x - 1 > 0 && mapa[puntoActual.x + -1][puntoActual.y] == true)
-			mapa[puntoActual.x + -1][puntoActual.y] = moverseIzquierdaPosible();
-		if (puntoActual.y + 1 < altoMapa && mapa[puntoActual.x][puntoActual.y + 1] == true)
-			mapa[puntoActual.x][puntoActual.y + 1] = moverseAbajoPosible();
-		if (puntoActual.y - 1 > 0 && mapa[puntoActual.x][puntoActual.y - 1] == true)
-			mapa[puntoActual.x][puntoActual.y - 1] = moverseArribaPosible();
-		for(int i = 0; i < vectorSensores.length; i++){
-			if(vectorSensores[i]==true)
-				contador++;
-		}
-		if(contador >= 3)
-			mapa[puntoActual.x][puntoActual.y] = false;
+	public void marcarPuntoActualVisitado () {
+		visitados[getPuntoActual().x][getPuntoActual().y] = true;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/*
 	 * METODOS DE ACCESO A LOS ATRIBUTOS
 	 */
@@ -380,7 +352,8 @@ public class Robot extends Observable {
 	}
 
 	/**
-	 * @param altoMapa the altoMapa to set
+	 * @param altoMapa
+	 *            the altoMapa to set
 	 */
 	public void setAltoMapa (int altoMapa) {
 		this.altoMapa = altoMapa;
@@ -394,7 +367,8 @@ public class Robot extends Observable {
 	}
 
 	/**
-	 * @param anchoMapa the anchoMapa to set
+	 * @param anchoMapa
+	 *            the anchoMapa to set
 	 */
 	public void setAnchoMapa (int anchoMapa) {
 		this.anchoMapa = anchoMapa;
@@ -408,18 +382,51 @@ public class Robot extends Observable {
 	}
 
 	/**
-	 * @param vectorSensores the vectorSensores to set
+	 * @param vectorSensores
+	 *            the vectorSensores to set
 	 */
 	public void setVectorSensores (boolean[] vectorSensores) {
 		this.vectorSensores = vectorSensores;
 	}
 
-	public boolean getPararMovimiento() {
+	public boolean getPararMovimiento () {
 		return pararMovimiento;
 	}
 
-	public void setPararMovimiento(boolean pararMovimiento) {
+	public void setPararMovimiento (boolean pararMovimiento) {
 		this.pararMovimiento = pararMovimiento;
 	}
 
+	/**
+	 * @return the visitados
+	 */
+	public boolean[][] getVisitados () {
+		return visitados;
+	}
+
+	/**
+	 * @param visitados
+	 *            the visitados to set
+	 */
+	public void setVisitados (boolean[][] visitados) {
+		this.visitados = visitados;
+	}
+
 }
+
+/*
+ * COMPROBAR QUE SE PUEDE MOVER
+ */
+/*
+ * public boolean moverseDerechaPosible () { if (sensorDerecha == false) return
+ * true; else return false; }
+ * 
+ * public boolean moverseIzquierdaPosible () { if (sensorIzquierda == false)
+ * return true; else return false; }
+ * 
+ * public boolean moverseArribaPosible () { if (sensorArriba == false) return
+ * true; else return false; }
+ * 
+ * public boolean moverseAbajoPosible () { if (sensorAbajo == false) return
+ * true; else return false; }
+ */
