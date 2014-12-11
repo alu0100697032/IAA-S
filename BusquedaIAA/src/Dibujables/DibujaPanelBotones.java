@@ -62,18 +62,16 @@ public class DibujaPanelBotones extends JPanel {
 		setBounds(0, alto - altoPanelBotones, ancho, altoPanelBotones);
 		setLayout(new GridLayout(2, 0));
 
+		setRobotObjetosButtonGroup(new ButtonGroup());
+		setEscaladaAEstrellaButtonGroup(new ButtonGroup());
+		setEscaladaRadioButton(new JRadioButton("Escalada"));
+		setAestrellaRadioButton(new JRadioButton("A*"));
+		setRobotRadioButton(new JRadioButton("Robot"));
+		setObjetosRadioButton(new JRadioButton("Objetos"));
+		
 		add(setCrearEntorno(new JButton("Crear Entorno")));
 		add(setModoAleatorio(new JButton("Modo aleatorio")));
 		add(setModoSeleccion(new JButton("Modo seleccion")));
-		add(setMoverRobot(new JButton("Mover Robot a:")));
-		add(setInsertarXDestino(new JTextField("1")));
-		add(setInsertarYDestino(new JTextField("1")));
-		setRobotObjetosButtonGroup(new ButtonGroup());
-		setEscaladaAEstrellaButtonGroup(new ButtonGroup());
-		setRobotRadioButton(new JRadioButton("Robot"));
-		setObjetosRadioButton(new JRadioButton("Objetos"));
-		setEscaladaRadioButton(new JRadioButton("Escalada"));
-		setAestrellaRadioButton(new JRadioButton("A*"));
 		/*
 		 * FORMAR GRUPO DE BOTONES ROBOT/OBJETOS
 		 */
@@ -81,6 +79,10 @@ public class DibujaPanelBotones extends JPanel {
 		robotObjetosButtonGroup.add(robotRadioButton);
 		add(robotRadioButton);
 		add(objetosRadioButton);
+		add(setMoverRobot(new JButton("Mover Robot a:")));
+		add(setInsertarXDestino(new JTextField("1")));
+		add(setInsertarYDestino(new JTextField("1")));
+	
 		/*
 		 * BOTON RESET
 		 */
@@ -93,17 +95,17 @@ public class DibujaPanelBotones extends JPanel {
 		add(setAltoEntorno(new JLabel("Alto")));
 		add(setInsertarAltoEntorno(new JTextField("10")));
 		/*
+		 * OBJETOS DEL ENTORNO
+		 */
+		add(setNumeroObjetos(new JLabel("Objetos")));
+		add(setInsertarNumeroObjetos(new JTextField("10")));
+		/*
 		 * GRUPO DE BOTONES DE ALGORITMO DE BUSQUEDA
 		 */
 		escaladaAEstrellaButtonGroup.add(escaladaRadioButton);
 		escaladaAEstrellaButtonGroup.add(aestrellaRadioButton);
 		add(escaladaRadioButton);
 		add(aestrellaRadioButton);
-		/*
-		 * OBJETOS DEL ENTORNO
-		 */
-		add(setNumeroObjetos(new JLabel("Objetos")));
-		add(setInsertarNumeroObjetos(new JTextField("10")));
 		/*
 		 * BOTON SALIR
 		 */
@@ -158,9 +160,84 @@ public class DibujaPanelBotones extends JPanel {
 	 */
 	public JButton setCrearEntorno (JButton crearEntorno) {
 		this.crearEntorno = crearEntorno;
+		this.crearEntorno.setBackground(Color.LIGHT_GRAY);
 		return crearEntorno;
 	}
 
+	/**
+	 * @return the reset
+	 */
+	public JButton getReset () {
+		return reset;
+	}
+
+	/**
+	 * @param reset
+	 *            the reset to set
+	 */
+	public JButton setReset (JButton reset) {
+		this.reset = reset;
+		this.reset.setBackground(Color.LIGHT_GRAY);
+		this.reset.setEnabled(false);
+		return reset;
+	}
+	
+	/**
+	 * @return the salir
+	 */
+	public JButton getSalir () {
+		return salir;
+	}
+
+	/**
+	 * @param salir
+	 *            the salir to set
+	 */
+	public JButton setSalir (JButton salir) {
+		this.salir = salir;
+		this.salir.setBackground(Color.LIGHT_GRAY);
+		return salir;
+	}
+	
+	public JButton getModoSeleccion () {
+		return modoSeleccion;
+	}
+
+	public JButton setModoSeleccion (JButton moverSeleccion) {
+		this.modoSeleccion = moverSeleccion;
+		this.modoSeleccion.setBackground(Color.LIGHT_GRAY);
+		this.modoSeleccion.setEnabled(false);
+		return moverSeleccion;
+	}
+
+	public JButton getModoAleatorio () {
+		return modoAleatorio;
+	}
+
+	public JButton setModoAleatorio (JButton modoAleatorio) {
+		this.modoAleatorio = modoAleatorio;
+		this.modoAleatorio.setBackground(Color.LIGHT_GRAY);
+		this.modoAleatorio.setEnabled(false);
+		return modoAleatorio;
+	}
+	
+	/**
+	 * @return the moverRobot
+	 */
+	public JButton getMoverRobot () {
+		return moverRobot;
+	}
+
+	/**
+	 * @param moverRobot
+	 *            the moverRobot to set
+	 */
+	public JButton setMoverRobot (JButton moverRobot) {
+		this.moverRobot = moverRobot;
+		this.moverRobot.setBackground(Color.LIGHT_GRAY);
+		this.moverRobot.setEnabled(false);
+		return moverRobot;
+	}
 	/**
 	 * @return the insertarAnchoEntorno
 	 */
@@ -241,23 +318,6 @@ public class DibujaPanelBotones extends JPanel {
 	}
 
 	/**
-	 * @return the reset
-	 */
-	public JButton getReset () {
-		return reset;
-	}
-
-	/**
-	 * @param reset
-	 *            the reset to set
-	 */
-	public JButton setReset (JButton reset) {
-		this.reset = reset;
-		this.reset.setEnabled(false);
-		return reset;
-	}
-
-	/**
 	 * @return the margenInferior
 	 */
 	public int getMargenInferior () {
@@ -285,23 +345,6 @@ public class DibujaPanelBotones extends JPanel {
 	 */
 	public void setMargenSuperior (int margenSuperior) {
 		this.margenSuperior = margenSuperior;
-	}
-
-	/**
-	 * @return the moverRobot
-	 */
-	public JButton getMoverRobot () {
-		return moverRobot;
-	}
-
-	/**
-	 * @param moverRobot
-	 *            the moverRobot to set
-	 */
-	public JButton setMoverRobot (JButton moverRobot) {
-		this.moverRobot = moverRobot;
-		this.moverRobot.setEnabled(false);
-		return moverRobot;
 	}
 
 	/**
@@ -375,32 +418,14 @@ public class DibujaPanelBotones extends JPanel {
 		return insertarNumeroObjetos;
 	}
 
-	public JButton getModoSeleccion () {
-		return modoSeleccion;
-	}
-
-	public JButton setModoSeleccion (JButton moverSeleccion) {
-		this.modoSeleccion = moverSeleccion;
-		this.modoSeleccion.setEnabled(false);
-		return moverSeleccion;
-	}
-
-	public JButton getModoAleatorio () {
-		return modoAleatorio;
-	}
-
-	public JButton setModoAleatorio (JButton modoAleatorio) {
-		this.modoAleatorio = modoAleatorio;
-		this.modoAleatorio.setEnabled(false);
-		return modoAleatorio;
-	}
-
 	public JRadioButton getRobotRadioButton () {
 		return robotRadioButton;
 	}
 
 	public JRadioButton setRobotRadioButton (JRadioButton robotRadioButton) {
 		this.robotRadioButton = robotRadioButton;
+		this.robotRadioButton.setForeground(Color.WHITE);
+		this.robotRadioButton.setBackground(Color.RED);
 		this.robotRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
 		this.robotRadioButton.setEnabled(false);
 		return robotRadioButton;
@@ -412,6 +437,8 @@ public class DibujaPanelBotones extends JPanel {
 
 	public JRadioButton setObjetosRadioButton (JRadioButton objetosRadioButton) {
 		this.objetosRadioButton = objetosRadioButton;
+		this.objetosRadioButton.setForeground(Color.WHITE);
+		this.objetosRadioButton.setBackground(Color.GREEN);
 		this.objetosRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
 		this.objetosRadioButton.setEnabled(false);
 		return objetosRadioButton;
@@ -425,22 +452,6 @@ public class DibujaPanelBotones extends JPanel {
 			ButtonGroup robotObjetosButtonGroup) {
 		this.robotObjetosButtonGroup = robotObjetosButtonGroup;
 		return this.robotObjetosButtonGroup;
-	}
-
-	/**
-	 * @return the salir
-	 */
-	public JButton getSalir () {
-		return salir;
-	}
-
-	/**
-	 * @param salir
-	 *            the salir to set
-	 */
-	public JButton setSalir (JButton salir) {
-		this.salir = salir;
-		return salir;
 	}
 
 	public ButtonGroup getEscaladaAEstrellaButtonGroup() {

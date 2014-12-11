@@ -71,7 +71,7 @@ public class Entorno extends Observable implements Runnable {
 		getRobot1().setPuntoActual(
 				new Point((int) Math.floor(Math.random() * (anchoEntorno - 1)),
 						(int) Math.floor(Math.random() * (altoEntorno - 1))));
-		getRobot1().setPuntoAnterior(getRobot1().getPuntoActual());
+		getRobot1().setPuntoAnterior(null);
 		DibujoEntorno[(int) getRobot1().getPuntoActual().getX()][(int) getRobot1()
 				.getPuntoActual().getY()] = 2;
 	}
@@ -90,8 +90,8 @@ public class Entorno extends Observable implements Runnable {
 	}
 
 	public void setPosicionRobotCero() {
-		robot1.setPuntoActual(new Point(0, 0));
-		robot1.setPuntoAnterior(new Point(0, 0));
+		robot1.setPuntoActual(null);
+		robot1.setPuntoAnterior(null);
 	}
 
 	public void setPosicionDestinoRobot(Point puntoDestino) {
@@ -137,7 +137,7 @@ public class Entorno extends Observable implements Runnable {
 		} else {
 			// AESTRELLA
 			getRobot1().inicializarMapaDistancias(DibujoEntorno, getAnchoEntorno(), getAltoEntorno());
-			/*while (robot1.getPuntoActual().equals(robot1.getPuntoDestino()) == false
+			while (robot1.getPuntoActual().equals(robot1.getPuntoDestino()) == false
 					&& robot1.getPararMovimiento() == false) {
 				try {
 					Thread.sleep(1000);
@@ -149,10 +149,11 @@ public class Entorno extends Observable implements Runnable {
 				DibujoEntorno[(int) robot1.getPuntoAnterior().getX()][(int) robot1
 						.getPuntoAnterior().getY()] = 0;
 				//METODOS DEL ALGORITMO AESTRELLA
+				getRobot1().aEstrella();
 				
 				DibujoEntorno[(int) robot1.getPuntoActual().getX()][(int) robot1
 						.getPuntoActual().getY()] = 2;
-			}*/
+			}
 		}
 		// System.out.println("Robot parado");
 	}

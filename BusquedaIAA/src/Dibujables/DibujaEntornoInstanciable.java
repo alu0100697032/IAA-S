@@ -6,6 +6,7 @@
  */
 package Dibujables;
 
+import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -62,28 +63,50 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			// getEntorno().mostrarMatrizVirtual();
 		}
 	}
-
+	/*
+	 * RESETEA EL ENTORNO
+	 */
 	class ResetListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			getEntorno().setPosicionRobotCero();
 			getEntorno().setNumeroObjetosColocados(0);
 			getEntorno().cambiarDimensionesEntorno(0, 0, 0);
+			
 			getPanelBotones().getCrearEntorno().setEnabled(true);
 			getPanelBotones().getMoverRobot().setEnabled(false);
+			getPanelBotones().getModoAleatorio().setEnabled(false);
+			getPanelBotones().getModoSeleccion().setEnabled(false);
+			getPanelBotones().getRobotRadioButton().setEnabled(false);
+			getPanelBotones().getObjetosRadioButton().setEnabled(false);
+			getPanelBotones().getEscaladaRadioButton().setEnabled(false);
+			getPanelBotones().getAestrellaRadioButton().setEnabled(false);
 		}
 	}
-
+	/*
+	 * SALE DEL PROGRAMA
+	 */
 	class SalirListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
 		}
 	}
-
+	/*
+	 * EL ROBOT SE MUEVE DEPENDIENDO DEL ALGORITMO DE BÚSQUEDA SELECCIONADO
+	 */
 	class MoverRobotListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (getPanelBotones().getEscaladaRadioButton().isSelected() == true) {
+				//FIJAR LA BUSQUEDA EN ESCALADA
 				getEntorno().setMovimiento(false);
+				/*
+				 * QUITAR FOCUS A LA SELECCION DE ALGORITMO
+				 */
 				getPanelBotones().getMoverRobot().setEnabled(false);
+				getPanelBotones().getEscaladaRadioButton().setEnabled(false);
+				getPanelBotones().getAestrellaRadioButton().setEnabled(false);
+				getPanelBotones().getEscaladaRadioButton().setBackground(getPanelBotones().getBackground());
+				getPanelBotones().getAestrellaRadioButton().setBackground(getPanelBotones().getBackground());
+				//FIJAR POSICION DE DESTINO
 				getEntorno().setPosicionDestinoRobot(
 						new Point(Integer.parseInt(getPanelBotones()
 								.getInsertarXDestino().getText()), Integer
@@ -97,8 +120,17 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 					e1.printStackTrace();
 				}
 			} else if (getPanelBotones().getAestrellaRadioButton().isSelected() == true) {
+				//FIJAR LA BUSQUEDA EN A*
 				getEntorno().setMovimiento(true);
+				/*
+				 * QUITAR FOCUS A LA SELECCION DE ALGORITMO
+				 */
 				getPanelBotones().getMoverRobot().setEnabled(false);
+				getPanelBotones().getEscaladaRadioButton().setEnabled(false);
+				getPanelBotones().getAestrellaRadioButton().setEnabled(false);
+				getPanelBotones().getEscaladaRadioButton().setBackground(getPanelBotones().getBackground());
+				getPanelBotones().getAestrellaRadioButton().setBackground(getPanelBotones().getBackground());
+				//FIJAR POSICION DE DESTINO
 				getEntorno().setPosicionDestinoRobot(
 						new Point(Integer.parseInt(getPanelBotones()
 								.getInsertarXDestino().getText()), Integer
@@ -114,7 +146,9 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			}
 		}
 	}
-
+	/*
+	 * EL PROGRAMA CREA ALEATORIAMENTE EL ENTORNO
+	 */
 	class ModoAleatorioListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			getPanelBotones().getModoAleatorio().setEnabled(false);
@@ -122,6 +156,11 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			getPanelBotones().getMoverRobot().setEnabled(true);
 			getPanelBotones().getEscaladaRadioButton().setEnabled(true);
 			getPanelBotones().getAestrellaRadioButton().setEnabled(true);
+			/*
+			 * FOCUSEAR SELECCION DE ALGORITMOS
+			 */
+			getPanelBotones().getEscaladaRadioButton().setBackground(Color.RED);
+			getPanelBotones().getAestrellaRadioButton().setBackground(Color.RED);
 			
 			getEntorno().colocarRobotAleatorio();
 			getEntorno().generarObstaculosAleatorio();
@@ -129,7 +168,9 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			//getEntorno().mostrarMatrizVirtual();
 		}
 	}
-
+	/*
+	 * EL PROGRAMA ENTRA EN MODO SELECCION, EL USUARIO CREA EL ENTORNO 
+	 */
 	class ModoSeleccionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			getPanelBotones().getModoAleatorio().setEnabled(false);
@@ -141,6 +182,9 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 		}
 	}
 
+	/*
+	 * PERMITE SITUAR AL ROBOT Y A LOS OBSTACULOS HACIENDO CLICK EN LA PANTALLA
+	 */
 	class SituarRobotListener implements MouseListener {
 		@Override
 		public void mouseClicked(MouseEvent e) {

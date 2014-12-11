@@ -71,7 +71,8 @@ abstract class DibujaEntorno implements Observer {
 	}
 
 	public void RepintarRobot () {
-		if (getEntorno().getPosicionAnteriorRobot() != getEntorno()
+		if (getEntorno().getRobot1().getPuntoActual() != null
+				&& getEntorno().getPosicionAnteriorRobot() != getEntorno()
 						.getPosicionActualRobot()) {
 
 			if (getEntorno().getPosicionAnteriorRobot() != -1)
