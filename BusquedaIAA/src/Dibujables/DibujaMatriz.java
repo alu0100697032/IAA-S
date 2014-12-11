@@ -31,7 +31,7 @@ public class DibujaMatriz extends JPanel {
 		setBounds(0, 0, anchoVentana, altoVentana - 100);
 		for (int i = 0; i < entorno.getAnchoEntorno(); i++) {
 			for (int j = 0; j < entorno.getAltoEntorno(); j++) {
-				add(new DibujaCelda(Color.WHITE, j, i));
+				add(new DibujaCelda(Color.WHITE, i, j));
 			}
 		}
 	}

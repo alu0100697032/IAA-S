@@ -19,14 +19,14 @@ public class Robot extends Observable {
 	private boolean pararMovimiento;
 
 	private double[] vectorCostes;
+	private int[][] mapaDistancias;
 	private boolean[][] mapa;
-	private boolean[][] visitados;
 	private boolean[] vectorSensores;
 
 	private int anchoMapa;
 	private int altoMapa;
 
-	private static double valorAlto = 9999999;
+	private static int valorAlto = 9999999;
 
 	/*
 	 * CONSTRUCTOR
@@ -38,7 +38,7 @@ public class Robot extends Observable {
 		vectorCostes = new double[4];
 	}
 
-	public void inicializarMapa (int ancho, int alto) {
+	public void inicializarMapa(int ancho, int alto) {
 		setAnchoMapa(ancho);
 		setAltoMapa(alto);
 
@@ -46,17 +46,62 @@ public class Robot extends Observable {
 		for (int i = 0; i < anchoMapa; i++)
 			for (int j = 0; j < altoMapa; j++)
 				mapa[i][j] = true;
-
-		setVisitados(new boolean[anchoMapa][altoMapa]);
-		for (int i = 0; i < anchoMapa; i++)
-			for (int j = 0; j < altoMapa; j++)
-				visitados[i][j] = false;
 	}
 
-	/*
-	 * SELECCION DE MOVIMIENTO
-	 */
-	public void seleccionMovimiento () {
+	public void inicializarMapaDistancias(int[][] mapaEntorno, int ancho,
+			int alto) {
+		setAnchoMapa(ancho);
+		setAltoMapa(alto);
+
+		setMapaDistancias(new int[anchoMapa][altoMapa]);
+		// FIJAMOS EL PUNTO DE DESTINO COMO COSTE 0
+		mapaDistancias[(int) puntoDestino.x][(int) puntoDestino.y] = 0;
+		// FIJAMOS LOS OBSTACULOS COMO UN COSTE MUY ALTO
+		for (int i = 0; i < anchoMapa; i++)
+			for (int j = 0; j < altoMapa; j++)
+				if (mapaEntorno[i][j] == 1) {
+					mapaDistancias[i][j] = valorAlto;
+				}
+		// AUMENTAMOS COSTES DE CASILLAS ADYACENTES AL PUNTO DE DESTINO
+		for (int k = 0; k < anchoMapa * altoMapa; k++) {
+			for (int i = 0; i < anchoMapa; i++) {
+				for (int j = 0; j < altoMapa; j++) {
+					if (mapaDistancias[i][j] == k) {
+						if(i+1 < anchoMapa && mapaDistancias[i+1][j] > k + 1)
+							mapaDistancias[i+1][j] = k+1;
+						if(i-1> 0 && mapaDistancias[i-1][j] > k + 1)
+							mapaDistancias[i+1][j] = k+1;
+						if(j+1 < altoMapa && mapaDistancias[i][j+1] > k + 1)
+							mapaDistancias[i][j+1] = k+1;
+						if(j-1 > 0 && mapaDistancias[i][j-1] > k + 1)
+							mapaDistancias[i][j-1] = k+1;
+					}
+				}
+			}
+		}
+	}
+
+	public void mostrarMapaDistancias() {
+		for (int i = 0; i < anchoMapa; i++) {
+			for (int j = 0; j < altoMapa; j++)
+				System.out.print(mapaDistancias[i][j]);
+			System.out.println();
+		}
+	}
+	
+	/***********************************************************************
+	 ************************** MOVIMIENTO AESTRELLA**************************
+	 ***********************************************************************/
+
+	public void rellenarCostes() {
+
+	}
+
+	/***********************************************************************
+	 ************************** MOVIMIENTO ESCALADA**************************
+	 ***********************************************************************/
+	public void seleccionMovimiento() {
+		actualizarMapa();
 		double costeMinimo = valorAlto;
 		if (getCasillaDerecha() == true)
 			vectorCostes[0] = costeMoverseDerecha();
@@ -98,7 +143,7 @@ public class Robot extends Observable {
 	/*
 	 * ACTUALIZAR EL MAPA QUE VA APRENDIENDO EL ROBOT
 	 */
-	public void actualizarMapa () {
+	public void actualizarMapa() {
 		if (getCasillaArriba() == true)
 			vectorSensores[0] = sensorArriba;
 		else
@@ -137,35 +182,34 @@ public class Robot extends Observable {
 		}
 		if (contador >= 3) {
 			mapa[puntoActual.x][puntoActual.y] = false;
-			System.out.println("Tapado " + puntoActual.x + "," + puntoActual.y);
 		}
 	}
 
 	/*
 	 * CASILLAS ADYACENTES
 	 */
-	public boolean getCasillaDerecha () {
+	public boolean getCasillaDerecha() {
 		if (getPuntoActual().x + 1 < anchoMapa)
 			return mapa[getPuntoActual().x + 1][getPuntoActual().y];
 		else
 			return false;
 	}
 
-	public boolean getCasillaIzquierda () {
+	public boolean getCasillaIzquierda() {
 		if (getPuntoActual().x - 1 >= 0)
 			return mapa[getPuntoActual().x - 1][getPuntoActual().y];
 		else
 			return false;
 	}
 
-	public boolean getCasillaAbajo () {
+	public boolean getCasillaAbajo() {
 		if (getPuntoActual().y + 1 < altoMapa)
 			return mapa[getPuntoActual().x][getPuntoActual().y + 1];
 		else
 			return false;
 	}
 
-	public boolean getCasillaArriba () {
+	public boolean getCasillaArriba() {
 		if (getPuntoActual().y - 1 >= 0)
 			return mapa[getPuntoActual().x][getPuntoActual().y - 1];
 		else
@@ -175,47 +219,43 @@ public class Robot extends Observable {
 	/*
 	 * MOVIMIENTOS POSIBLES
 	 */
-	public void moverseDerecha () {
+	public void moverseDerecha() {
 		setPuntoActual(new Point(puntoActual.x + 1, puntoActual.y));
 	}
 
-	public void moverseIzquierda () {
+	public void moverseIzquierda() {
 		setPuntoActual(new Point(puntoActual.x - 1, puntoActual.y));
 	}
 
-	public void moverseArriba () {
+	public void moverseArriba() {
 		setPuntoActual(new Point(puntoActual.x, puntoActual.y - 1));
 	}
 
-	public void moverseAbajo () {
+	public void moverseAbajo() {
 		setPuntoActual(new Point(puntoActual.x, puntoActual.y + 1));
 	}
 
 	/*
 	 * COSTE DE LOS MOVIMIENTOS DEL ROBOT
 	 */
-	public double costeMoverseDerecha () {
+	public double costeMoverseDerecha() {
 		return (new Point(puntoActual.x + 1, puntoActual.y)
 				.distance(puntoDestino));
 	}
 
-	public double costeMoverseIzquierda () {
+	public double costeMoverseIzquierda() {
 		return (new Point(puntoActual.x - 1, puntoActual.y)
 				.distance(puntoDestino));
 	}
 
-	public double costeMoverseArriba () {
+	public double costeMoverseArriba() {
 		return (new Point(puntoActual.x, puntoActual.y - 1)
 				.distance(puntoDestino));
 	}
 
-	public double costeMoverseAbajo () {
+	public double costeMoverseAbajo() {
 		return (new Point(puntoActual.x, puntoActual.y + 1)
 				.distance(puntoDestino));
-	}
-
-	public void marcarPuntoActualVisitado () {
-		visitados[getPuntoActual().x][getPuntoActual().y] = true;
 	}
 
 	/*
@@ -225,7 +265,7 @@ public class Robot extends Observable {
 	/**
 	 * @return the sensorArriba
 	 */
-	public boolean isSensorArriba () {
+	public boolean isSensorArriba() {
 		return sensorArriba;
 	}
 
@@ -233,14 +273,14 @@ public class Robot extends Observable {
 	 * @param sensorArriba
 	 *            the sensorArriba to set
 	 */
-	public void setSensorArriba (boolean sensorArriba) {
+	public void setSensorArriba(boolean sensorArriba) {
 		this.sensorArriba = sensorArriba;
 	}
 
 	/**
 	 * @return the sensorAbajo
 	 */
-	public boolean isSensorAbajo () {
+	public boolean isSensorAbajo() {
 		return sensorAbajo;
 	}
 
@@ -248,14 +288,14 @@ public class Robot extends Observable {
 	 * @param sensorAbajo
 	 *            the sensorAbajo to set
 	 */
-	public void setSensorAbajo (boolean sensorAbajo) {
+	public void setSensorAbajo(boolean sensorAbajo) {
 		this.sensorAbajo = sensorAbajo;
 	}
 
 	/**
 	 * @return the sensorIzquierda
 	 */
-	public boolean isSensorIzquierda () {
+	public boolean isSensorIzquierda() {
 		return sensorIzquierda;
 	}
 
@@ -263,14 +303,14 @@ public class Robot extends Observable {
 	 * @param sensorIzquierda
 	 *            the sensorIzquierda to set
 	 */
-	public void setSensorIzquierda (boolean sensorIzquierda) {
+	public void setSensorIzquierda(boolean sensorIzquierda) {
 		this.sensorIzquierda = sensorIzquierda;
 	}
 
 	/**
 	 * @return the sensorDerecha
 	 */
-	public boolean isSensorDerecha () {
+	public boolean isSensorDerecha() {
 		return sensorDerecha;
 	}
 
@@ -278,14 +318,14 @@ public class Robot extends Observable {
 	 * @param sensorDerecha
 	 *            the sensorDerecha to set
 	 */
-	public void setSensorDerecha (boolean sensorDerecha) {
+	public void setSensorDerecha(boolean sensorDerecha) {
 		this.sensorDerecha = sensorDerecha;
 	}
 
 	/**
 	 * @return the puntoActual
 	 */
-	public Point getPuntoActual () {
+	public Point getPuntoActual() {
 		return puntoActual;
 	}
 
@@ -293,7 +333,7 @@ public class Robot extends Observable {
 	 * @param puntoActual
 	 *            the puntoActual to set
 	 */
-	public void setPuntoActual (Point puntoActual) {
+	public void setPuntoActual(Point puntoActual) {
 		this.puntoActual = puntoActual;
 		setChanged();
 		notifyObservers();
@@ -302,7 +342,7 @@ public class Robot extends Observable {
 	/**
 	 * @return the puntoAnterior
 	 */
-	public Point getPuntoAnterior () {
+	public Point getPuntoAnterior() {
 		return puntoAnterior;
 	}
 
@@ -310,14 +350,14 @@ public class Robot extends Observable {
 	 * @param puntoAnterior
 	 *            the puntoAnterior to set
 	 */
-	public void setPuntoAnterior (Point puntoAnterior) {
+	public void setPuntoAnterior(Point puntoAnterior) {
 		this.puntoAnterior = puntoAnterior;
 	}
 
 	/**
 	 * @return the puntoDestino
 	 */
-	public Point getPuntoDestino () {
+	public Point getPuntoDestino() {
 		return puntoDestino;
 	}
 
@@ -325,14 +365,14 @@ public class Robot extends Observable {
 	 * @param puntoDestino
 	 *            the puntoDestino to set
 	 */
-	public void setPuntoDestino (Point puntoDestino) {
+	public void setPuntoDestino(Point puntoDestino) {
 		this.puntoDestino = puntoDestino;
 	}
 
 	/**
 	 * @return the mapa
 	 */
-	public boolean[][] getMapa () {
+	public boolean[][] getMapa() {
 		return mapa;
 	}
 
@@ -340,14 +380,14 @@ public class Robot extends Observable {
 	 * @param mapa
 	 *            the mapa to set
 	 */
-	public void setMapa (boolean[][] mapa) {
+	public void setMapa(boolean[][] mapa) {
 		this.mapa = mapa;
 	}
 
 	/**
 	 * @return the altoMapa
 	 */
-	public int getAltoMapa () {
+	public int getAltoMapa() {
 		return altoMapa;
 	}
 
@@ -355,14 +395,14 @@ public class Robot extends Observable {
 	 * @param altoMapa
 	 *            the altoMapa to set
 	 */
-	public void setAltoMapa (int altoMapa) {
+	public void setAltoMapa(int altoMapa) {
 		this.altoMapa = altoMapa;
 	}
 
 	/**
 	 * @return the anchoMapa
 	 */
-	public int getAnchoMapa () {
+	public int getAnchoMapa() {
 		return anchoMapa;
 	}
 
@@ -370,14 +410,14 @@ public class Robot extends Observable {
 	 * @param anchoMapa
 	 *            the anchoMapa to set
 	 */
-	public void setAnchoMapa (int anchoMapa) {
+	public void setAnchoMapa(int anchoMapa) {
 		this.anchoMapa = anchoMapa;
 	}
 
 	/**
 	 * @return the vectorSensores
 	 */
-	public boolean[] getVectorSensores () {
+	public boolean[] getVectorSensores() {
 		return vectorSensores;
 	}
 
@@ -385,33 +425,25 @@ public class Robot extends Observable {
 	 * @param vectorSensores
 	 *            the vectorSensores to set
 	 */
-	public void setVectorSensores (boolean[] vectorSensores) {
+	public void setVectorSensores(boolean[] vectorSensores) {
 		this.vectorSensores = vectorSensores;
 	}
 
-	public boolean getPararMovimiento () {
+	public boolean getPararMovimiento() {
 		return pararMovimiento;
 	}
 
-	public void setPararMovimiento (boolean pararMovimiento) {
+	public void setPararMovimiento(boolean pararMovimiento) {
 		this.pararMovimiento = pararMovimiento;
 	}
 
-	/**
-	 * @return the visitados
-	 */
-	public boolean[][] getVisitados () {
-		return visitados;
+	public int[][] getMapaDistancias() {
+		return mapaDistancias;
 	}
 
-	/**
-	 * @param visitados
-	 *            the visitados to set
-	 */
-	public void setVisitados (boolean[][] visitados) {
-		this.visitados = visitados;
+	public void setMapaDistancias(int[][] mapaDistancias) {
+		this.mapaDistancias = mapaDistancias;
 	}
-
 }
 
 /*

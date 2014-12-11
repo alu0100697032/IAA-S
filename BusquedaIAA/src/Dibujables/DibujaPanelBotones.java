@@ -52,8 +52,11 @@ public class DibujaPanelBotones extends JPanel {
 
 	private JRadioButton robotRadioButton;
 	private JRadioButton objetosRadioButton;
+	private JRadioButton escaladaRadioButton;
+	private JRadioButton aestrellaRadioButton;
 
 	private ButtonGroup robotObjetosButtonGroup;
+	private ButtonGroup escaladaAEstrellaButtonGroup;
 
 	public DibujaPanelBotones(int ancho, int alto) {
 		setBounds(0, alto - altoPanelBotones, ancho, altoPanelBotones);
@@ -66,26 +69,44 @@ public class DibujaPanelBotones extends JPanel {
 		add(setInsertarXDestino(new JTextField("1")));
 		add(setInsertarYDestino(new JTextField("1")));
 		setRobotObjetosButtonGroup(new ButtonGroup());
+		setEscaladaAEstrellaButtonGroup(new ButtonGroup());
 		setRobotRadioButton(new JRadioButton("Robot"));
 		setObjetosRadioButton(new JRadioButton("Objetos"));
+		setEscaladaRadioButton(new JRadioButton("Escalada"));
+		setAestrellaRadioButton(new JRadioButton("A*"));
 		/*
-		 * FORMAR GRUPO DE BOTONES
+		 * FORMAR GRUPO DE BOTONES ROBOT/OBJETOS
 		 */
 		robotObjetosButtonGroup.add(objetosRadioButton);
 		robotObjetosButtonGroup.add(robotRadioButton);
 		add(robotRadioButton);
 		add(objetosRadioButton);
 		/*
-		 * CARACTERÍSTICAS DEL ENTORNO
+		 * BOTON RESET
+		 */
+		add(setReset(new JButton("Reset")));
+		/*
+		 * CARACTERÍSTICAS DEL ENTORNO ANCHO/ALTO
 		 */
 		add(setAnchoEntorno(new JLabel("Ancho")));
 		add(setInsertarAnchoEntorno(new JTextField("10")));
 		add(setAltoEntorno(new JLabel("Alto")));
 		add(setInsertarAltoEntorno(new JTextField("10")));
+		/*
+		 * GRUPO DE BOTONES DE ALGORITMO DE BUSQUEDA
+		 */
+		escaladaAEstrellaButtonGroup.add(escaladaRadioButton);
+		escaladaAEstrellaButtonGroup.add(aestrellaRadioButton);
+		add(escaladaRadioButton);
+		add(aestrellaRadioButton);
+		/*
+		 * OBJETOS DEL ENTORNO
+		 */
 		add(setNumeroObjetos(new JLabel("Objetos")));
 		add(setInsertarNumeroObjetos(new JTextField("10")));
-
-		add(setReset(new JButton("Reset")));
+		/*
+		 * BOTON SALIR
+		 */
 		add(setSalir(new JButton("Salir")));
 		setVisible(true);
 	}
@@ -420,5 +441,34 @@ public class DibujaPanelBotones extends JPanel {
 	public JButton setSalir (JButton salir) {
 		this.salir = salir;
 		return salir;
+	}
+
+	public ButtonGroup getEscaladaAEstrellaButtonGroup() {
+		return escaladaAEstrellaButtonGroup;
+	}
+
+	public void setEscaladaAEstrellaButtonGroup(
+			ButtonGroup escaladaAEstrellaButtonGroup) {
+		this.escaladaAEstrellaButtonGroup = escaladaAEstrellaButtonGroup;
+	}
+
+	public JRadioButton getEscaladaRadioButton() {
+		return escaladaRadioButton;
+	}
+
+	public void setEscaladaRadioButton(JRadioButton escaladaRadioButton) {
+		this.escaladaRadioButton = escaladaRadioButton;
+		this.escaladaRadioButton.setEnabled(false);
+		this.escaladaRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
+	}
+
+	public JRadioButton getAestrellaRadioButton() {
+		return aestrellaRadioButton;
+	}
+
+	public void setAestrellaRadioButton(JRadioButton aestrellaRadioButton) {
+		this.aestrellaRadioButton = aestrellaRadioButton;
+		this.aestrellaRadioButton.setEnabled(false);
+		this.aestrellaRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 }

@@ -43,11 +43,8 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 
 	class CrearEntornoListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			getPanelBotones().getCrearEntorno().setEnabled(false);// DESABILITAMOS
-																	// EL BOTON
-			getPanelBotones().getMoverRobot().setEnabled(true);// HABILITAMOS EL
-																// BOTON DE
-																// MOVIMIENTO
+			// DESABILITAMOS EL BOTON HABILITAMOS EL BOTON DE MOVIMIENTO
+			getPanelBotones().getCrearEntorno().setEnabled(false);
 			/*
 			 * MODIFICAMOS NUESTRO OBJETO ENTORNO CON LOS VALORES DE LOS CAMPOS
 			 * DE TEXTO
@@ -84,18 +81,36 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 
 	class MoverRobotListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			getPanelBotones().getMoverRobot().setEnabled(false);
-			getEntorno().setPosicionDestinoRobot(
-					new Point(Integer.parseInt(getPanelBotones()
-							.getInsertarXDestino().getText()), Integer
-							.parseInt(getPanelBotones().getInsertarYDestino()
-									.getText())));
-			try {
-				getEntorno().mostrarMatrizVirtual();
-				getEntorno().moverRobot();
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			if (getPanelBotones().getEscaladaRadioButton().isSelected() == true) {
+				getEntorno().setMovimiento(false);
+				getPanelBotones().getMoverRobot().setEnabled(false);
+				getEntorno().setPosicionDestinoRobot(
+						new Point(Integer.parseInt(getPanelBotones()
+								.getInsertarXDestino().getText()), Integer
+								.parseInt(getPanelBotones()
+										.getInsertarYDestino().getText())));
+				try {
+					// getEntorno().mostrarMatrizVirtual();
+					getEntorno().moverRobot();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else if (getPanelBotones().getAestrellaRadioButton().isSelected() == true) {
+				getEntorno().setMovimiento(true);
+				getPanelBotones().getMoverRobot().setEnabled(false);
+				getEntorno().setPosicionDestinoRobot(
+						new Point(Integer.parseInt(getPanelBotones()
+								.getInsertarXDestino().getText()), Integer
+								.parseInt(getPanelBotones()
+										.getInsertarYDestino().getText())));
+				try {
+					// getEntorno().mostrarMatrizVirtual();
+					getEntorno().moverRobot();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -104,10 +119,13 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 		public void actionPerformed(ActionEvent e) {
 			getPanelBotones().getModoAleatorio().setEnabled(false);
 			getPanelBotones().getModoSeleccion().setEnabled(false);
+			getPanelBotones().getMoverRobot().setEnabled(true);
+			getPanelBotones().getEscaladaRadioButton().setEnabled(true);
+			getPanelBotones().getAestrellaRadioButton().setEnabled(true);
 			getEntorno().colocarRobotAleatorio();
 			getEntorno().generarObstaculosAleatorio();
 			getMatriz().DibujaObstaculos(getEntorno());
-			//getEntorno().mostrarMatrizVirtual();
+			// getEntorno().mostrarMatrizVirtual();
 		}
 	}
 
@@ -118,7 +136,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			getPanelBotones().getRobotRadioButton().setEnabled(true);
 			getPanelBotones().getObjetosRadioButton().setEnabled(true);
 			getMatriz().addSituarRobot(new SituarRobotListener());
-			//getEntorno().mostrarMatrizVirtual();
+			// getEntorno().mostrarMatrizVirtual();
 		}
 	}
 
@@ -163,6 +181,12 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 												.getLocation()))
 										.getPosicionCeldaY()));
 				RepintarObjetos();
+			} else {
+				getPanelBotones().getRobotRadioButton().setEnabled(false);
+				getPanelBotones().getObjetosRadioButton().setEnabled(false);
+				getPanelBotones().getMoverRobot().setEnabled(true);
+				getPanelBotones().getEscaladaRadioButton().setEnabled(true);
+				getPanelBotones().getAestrellaRadioButton().setEnabled(true);
 			}
 		}
 
