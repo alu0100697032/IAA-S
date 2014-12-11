@@ -19,7 +19,7 @@ abstract class DibujaEntorno implements Observer {
 	private Entorno entorno;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	private int width = screenSize.width;
-	private int height = screenSize.height-250;
+	private int height = screenSize.height - 250;
 	private int margenFrame = 25;
 	private JFrame entornoFrame;
 	private DibujaPanelBotones panelBotones;
@@ -39,7 +39,7 @@ abstract class DibujaEntorno implements Observer {
 		entornoFrame.setResizable(false);
 		entornoFrame.setUndecorated(true);
 		entornoFrame.setBounds(0, 0, width, height);
-		//device.setFullScreenWindow(entornoFrame);
+		// device.setFullScreenWindow(entornoFrame);
 		entornoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		entornoFrame
 				.add(setPanelBotones(new DibujaPanelBotones(width, height)));
@@ -72,9 +72,12 @@ abstract class DibujaEntorno implements Observer {
 
 	public void RepintarRobot () {
 		if (getEntorno().getPosicionAnteriorRobot() != getEntorno()
-				.getPosicionActualRobot()) {
-			getMatriz().getComponent(getEntorno().getPosicionAnteriorRobot())
-					.setBackground(Color.WHITE);
+						.getPosicionActualRobot()) {
+
+			if (getEntorno().getPosicionAnteriorRobot() != -1)
+				getMatriz().getComponent(
+						getEntorno().getPosicionAnteriorRobot()).setBackground(
+						Color.ORANGE);
 			getMatriz().getComponent(getEntorno().getPosicionActualRobot())
 					.setBackground(Color.RED);
 			getMatriz().repaint();

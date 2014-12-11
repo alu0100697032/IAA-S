@@ -33,8 +33,8 @@ public class Robot extends Observable {
 	 */
 	public Robot() {
 		setVectorSensores(new boolean[4]);
-		setPuntoActual(new Point());
-		setPuntoAnterior(getPuntoActual());
+		setPuntoActual(null);
+		setPuntoAnterior(null);
 		vectorCostes = new double[4];
 	}
 
@@ -47,54 +47,49 @@ public class Robot extends Observable {
 			for (int j = 0; j < altoMapa; j++)
 				mapa[i][j] = true;
 	}
-
+	/***********************************************************************
+	 ************************** MOVIMIENTO AESTRELLA**************************
+	 ***********************************************************************/
 	public void inicializarMapaDistancias(int[][] mapaEntorno, int ancho,
 			int alto) {
 		setAnchoMapa(ancho);
 		setAltoMapa(alto);
 
 		setMapaDistancias(new int[anchoMapa][altoMapa]);
-		// FIJAMOS EL PUNTO DE DESTINO COMO COSTE 0
-		mapaDistancias[(int) puntoDestino.x][(int) puntoDestino.y] = 0;
 		// FIJAMOS LOS OBSTACULOS COMO UN COSTE MUY ALTO
 		for (int i = 0; i < anchoMapa; i++)
 			for (int j = 0; j < altoMapa; j++)
-				if (mapaEntorno[i][j] == 1) {
+				//if (mapaEntorno[i][j] == 1) {
 					mapaDistancias[i][j] = valorAlto;
-				}
+				//}
+		// FIJAMOS EL PUNTO DE DESTINO COMO COSTE 0
+		mapaDistancias[(int) puntoDestino.x][(int) puntoDestino.y] = 0;
 		// AUMENTAMOS COSTES DE CASILLAS ADYACENTES AL PUNTO DE DESTINO
 		for (int k = 0; k < anchoMapa * altoMapa; k++) {
 			for (int i = 0; i < anchoMapa; i++) {
 				for (int j = 0; j < altoMapa; j++) {
 					if (mapaDistancias[i][j] == k) {
-						if(i+1 < anchoMapa && mapaDistancias[i+1][j] > k + 1)
+						if(i+1 < anchoMapa && mapaDistancias[i+1][j] > k + 1 && mapaEntorno[i+1][j]==0)
 							mapaDistancias[i+1][j] = k+1;
-						if(i-1> 0 && mapaDistancias[i-1][j] > k + 1)
+						if(i-1>= 0 && mapaDistancias[i-1][j] > k + 1 && mapaEntorno[i-1][j]==0)
 							mapaDistancias[i+1][j] = k+1;
-						if(j+1 < altoMapa && mapaDistancias[i][j+1] > k + 1)
+						if(j+1 < altoMapa && mapaDistancias[i][j+1] > k + 1 && mapaEntorno[i][j+1]==0)
 							mapaDistancias[i][j+1] = k+1;
-						if(j-1 > 0 && mapaDistancias[i][j-1] > k + 1)
+						if(j-1 >= 0 && mapaDistancias[i][j-1] > k + 1 && mapaEntorno[i][j-1]==0)
 							mapaDistancias[i][j-1] = k+1;
 					}
 				}
 			}
 		}
+		mostrarMapaDistancias();
 	}
 
 	public void mostrarMapaDistancias() {
 		for (int i = 0; i < anchoMapa; i++) {
 			for (int j = 0; j < altoMapa; j++)
-				System.out.print(mapaDistancias[i][j]);
+				System.out.print(mapaDistancias[i][j]+" ");
 			System.out.println();
 		}
-	}
-	
-	/***********************************************************************
-	 ************************** MOVIMIENTO AESTRELLA**************************
-	 ***********************************************************************/
-
-	public void rellenarCostes() {
-
 	}
 
 	/***********************************************************************

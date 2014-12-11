@@ -43,8 +43,11 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 
 	class CrearEntornoListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// DESABILITAMOS EL BOTON HABILITAMOS EL BOTON DE MOVIMIENTO
+			
 			getPanelBotones().getCrearEntorno().setEnabled(false);
+			getPanelBotones().getReset().setEnabled(true);
+			getPanelBotones().getModoAleatorio().setEnabled(true);
+			getPanelBotones().getModoSeleccion().setEnabled(true);
 			/*
 			 * MODIFICAMOS NUESTRO OBJETO ENTORNO CON LOS VALORES DE LOS CAMPOS
 			 * DE TEXTO
@@ -57,9 +60,6 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 					Integer.parseInt(getPanelBotones()
 							.getInsertarNumeroObjetos().getText()));
 			// getEntorno().mostrarMatrizVirtual();
-			getPanelBotones().getReset().setEnabled(true);
-			getPanelBotones().getModoAleatorio().setEnabled(true);
-			getPanelBotones().getModoSeleccion().setEnabled(true);
 		}
 	}
 
@@ -122,10 +122,11 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			getPanelBotones().getMoverRobot().setEnabled(true);
 			getPanelBotones().getEscaladaRadioButton().setEnabled(true);
 			getPanelBotones().getAestrellaRadioButton().setEnabled(true);
+			
 			getEntorno().colocarRobotAleatorio();
 			getEntorno().generarObstaculosAleatorio();
 			getMatriz().DibujaObstaculos(getEntorno());
-			// getEntorno().mostrarMatrizVirtual();
+			//getEntorno().mostrarMatrizVirtual();
 		}
 	}
 

@@ -82,8 +82,11 @@ public class Entorno extends Observable implements Runnable {
 	}
 
 	public int getPosicionAnteriorRobot() {
-		return (int) (getRobot1().getPuntoAnterior().getX() * anchoEntorno + getRobot1()
+		if(getRobot1().getPuntoAnterior()!=null)
+			return (int) (getRobot1().getPuntoAnterior().getX() * anchoEntorno + getRobot1()
 				.getPuntoAnterior().getY());
+		else 
+			return -1;
 	}
 
 	public void setPosicionRobotCero() {
@@ -134,7 +137,6 @@ public class Entorno extends Observable implements Runnable {
 		} else {
 			// AESTRELLA
 			getRobot1().inicializarMapaDistancias(DibujoEntorno, getAnchoEntorno(), getAltoEntorno());
-			getRobot1().mostrarMapaDistancias();
 			/*while (robot1.getPuntoActual().equals(robot1.getPuntoDestino()) == false
 					&& robot1.getPararMovimiento() == false) {
 				try {
@@ -193,6 +195,7 @@ public class Entorno extends Observable implements Runnable {
 				System.out.print(DibujoEntorno[i][j]);
 			System.out.println();
 		}
+		System.out.println();
 	}
 	/*
 	 * METODOS DE ACCESO A LOS ATRIBUTOS
