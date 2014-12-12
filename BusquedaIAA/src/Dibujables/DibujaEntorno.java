@@ -19,7 +19,7 @@ abstract class DibujaEntorno implements Observer {
 	private Entorno entorno;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	private int width = screenSize.width;
-	private int height = screenSize.height - 250;
+	private int height = screenSize.height-50;
 	private int margenFrame = 25;
 	private JFrame entornoFrame;
 	private DibujaPanelBotones panelBotones;

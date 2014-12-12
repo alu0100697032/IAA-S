@@ -16,6 +16,7 @@ public class Entorno extends Observable implements Runnable {
 	private Robot robot1;
 	private int posicionUltimoObjetoPintado;
 	private boolean movimiento;// FALSE ESCALADA/TRUE AESTRELLA
+	private boolean robotColocado = false;
 
 	/*
 	 * CONSTRUCTOR
@@ -74,6 +75,7 @@ public class Entorno extends Observable implements Runnable {
 		getRobot1().setPuntoAnterior(null);
 		DibujoEntorno[(int) getRobot1().getPuntoActual().getX()][(int) getRobot1()
 				.getPuntoActual().getY()] = 2;
+		setRobotColocado(true);
 	}
 
 	public int getPosicionActualRobot() {
@@ -89,9 +91,10 @@ public class Entorno extends Observable implements Runnable {
 			return -1;
 	}
 
-	public void setPosicionRobotCero() {
+	public void setPosicionRobotNulo() {
 		robot1.setPuntoActual(null);
 		robot1.setPuntoAnterior(null);
+		setRobotColocado(false);
 	}
 
 	public void setPosicionDestinoRobot(Point puntoDestino) {
@@ -285,5 +288,13 @@ public class Entorno extends Observable implements Runnable {
 
 	public void setMovimiento(boolean movimiento) {
 		this.movimiento = movimiento;
+	}
+
+	public boolean isRobotColocado() {
+		return robotColocado;
+	}
+
+	public void setRobotColocado(boolean robotColocado) {
+		this.robotColocado = robotColocado;
 	}
 }

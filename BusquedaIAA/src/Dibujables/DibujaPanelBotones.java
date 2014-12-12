@@ -424,8 +424,8 @@ public class DibujaPanelBotones extends JPanel {
 
 	public JRadioButton setRobotRadioButton (JRadioButton robotRadioButton) {
 		this.robotRadioButton = robotRadioButton;
-		this.robotRadioButton.setForeground(Color.WHITE);
-		this.robotRadioButton.setBackground(Color.RED);
+		//this.robotRadioButton.setForeground(Color.WHITE);
+		//this.robotRadioButton.setBackground(Color.RED);
 		this.robotRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
 		this.robotRadioButton.setEnabled(false);
 		return robotRadioButton;
@@ -437,8 +437,8 @@ public class DibujaPanelBotones extends JPanel {
 
 	public JRadioButton setObjetosRadioButton (JRadioButton objetosRadioButton) {
 		this.objetosRadioButton = objetosRadioButton;
-		this.objetosRadioButton.setForeground(Color.WHITE);
-		this.objetosRadioButton.setBackground(Color.GREEN);
+		//this.objetosRadioButton.setForeground(Color.WHITE);
+		//this.objetosRadioButton.setBackground(Color.GREEN);
 		this.objetosRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
 		this.objetosRadioButton.setEnabled(false);
 		return objetosRadioButton;

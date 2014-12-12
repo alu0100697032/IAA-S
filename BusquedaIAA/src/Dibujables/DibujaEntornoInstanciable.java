@@ -44,7 +44,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 
 	class CrearEntornoListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
+
 			getPanelBotones().getCrearEntorno().setEnabled(false);
 			getPanelBotones().getReset().setEnabled(true);
 			getPanelBotones().getModoAleatorio().setEnabled(true);
@@ -63,15 +63,16 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			// getEntorno().mostrarMatrizVirtual();
 		}
 	}
+
 	/*
 	 * RESETEA EL ENTORNO
 	 */
 	class ResetListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			getEntorno().setPosicionRobotCero();
+			getEntorno().setPosicionRobotNulo();
 			getEntorno().setNumeroObjetosColocados(0);
 			getEntorno().cambiarDimensionesEntorno(0, 0, 0);
-			
+
 			getPanelBotones().getCrearEntorno().setEnabled(true);
 			getPanelBotones().getMoverRobot().setEnabled(false);
 			getPanelBotones().getModoAleatorio().setEnabled(false);
@@ -82,6 +83,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			getPanelBotones().getAestrellaRadioButton().setEnabled(false);
 		}
 	}
+
 	/*
 	 * SALE DEL PROGRAMA
 	 */
@@ -90,13 +92,14 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			System.exit(0);
 		}
 	}
+
 	/*
 	 * EL ROBOT SE MUEVE DEPENDIENDO DEL ALGORITMO DE BÚSQUEDA SELECCIONADO
 	 */
 	class MoverRobotListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (getPanelBotones().getEscaladaRadioButton().isSelected() == true) {
-				//FIJAR LA BUSQUEDA EN ESCALADA
+				// FIJAR LA BUSQUEDA EN ESCALADA
 				getEntorno().setMovimiento(false);
 				/*
 				 * QUITAR FOCUS A LA SELECCION DE ALGORITMO
@@ -104,9 +107,11 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 				getPanelBotones().getMoverRobot().setEnabled(false);
 				getPanelBotones().getEscaladaRadioButton().setEnabled(false);
 				getPanelBotones().getAestrellaRadioButton().setEnabled(false);
-				getPanelBotones().getEscaladaRadioButton().setBackground(getPanelBotones().getBackground());
-				getPanelBotones().getAestrellaRadioButton().setBackground(getPanelBotones().getBackground());
-				//FIJAR POSICION DE DESTINO
+				getPanelBotones().getEscaladaRadioButton().setBackground(
+						getPanelBotones().getBackground());
+				getPanelBotones().getAestrellaRadioButton().setBackground(
+						getPanelBotones().getBackground());
+				// FIJAR POSICION DE DESTINO
 				getEntorno().setPosicionDestinoRobot(
 						new Point(Integer.parseInt(getPanelBotones()
 								.getInsertarXDestino().getText()), Integer
@@ -120,7 +125,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 					e1.printStackTrace();
 				}
 			} else if (getPanelBotones().getAestrellaRadioButton().isSelected() == true) {
-				//FIJAR LA BUSQUEDA EN A*
+				// FIJAR LA BUSQUEDA EN A*
 				getEntorno().setMovimiento(true);
 				/*
 				 * QUITAR FOCUS A LA SELECCION DE ALGORITMO
@@ -128,9 +133,11 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 				getPanelBotones().getMoverRobot().setEnabled(false);
 				getPanelBotones().getEscaladaRadioButton().setEnabled(false);
 				getPanelBotones().getAestrellaRadioButton().setEnabled(false);
-				getPanelBotones().getEscaladaRadioButton().setBackground(getPanelBotones().getBackground());
-				getPanelBotones().getAestrellaRadioButton().setBackground(getPanelBotones().getBackground());
-				//FIJAR POSICION DE DESTINO
+				getPanelBotones().getEscaladaRadioButton().setBackground(
+						getPanelBotones().getBackground());
+				getPanelBotones().getAestrellaRadioButton().setBackground(
+						getPanelBotones().getBackground());
+				// FIJAR POSICION DE DESTINO
 				getEntorno().setPosicionDestinoRobot(
 						new Point(Integer.parseInt(getPanelBotones()
 								.getInsertarXDestino().getText()), Integer
@@ -146,6 +153,7 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			}
 		}
 	}
+
 	/*
 	 * EL PROGRAMA CREA ALEATORIAMENTE EL ENTORNO
 	 */
@@ -160,16 +168,18 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			 * FOCUSEAR SELECCION DE ALGORITMOS
 			 */
 			getPanelBotones().getEscaladaRadioButton().setBackground(Color.RED);
-			getPanelBotones().getAestrellaRadioButton().setBackground(Color.RED);
-			
+			getPanelBotones().getAestrellaRadioButton()
+					.setBackground(Color.RED);
+
 			getEntorno().colocarRobotAleatorio();
 			getEntorno().generarObstaculosAleatorio();
 			getMatriz().DibujaObstaculos(getEntorno());
-			//getEntorno().mostrarMatrizVirtual();
+			// getEntorno().mostrarMatrizVirtual();
 		}
 	}
+
 	/*
-	 * EL PROGRAMA ENTRA EN MODO SELECCION, EL USUARIO CREA EL ENTORNO 
+	 * EL PROGRAMA ENTRA EN MODO SELECCION, EL USUARIO CREA EL ENTORNO
 	 */
 	class ModoSeleccionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -177,7 +187,11 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			getPanelBotones().getModoSeleccion().setEnabled(false);
 			getPanelBotones().getRobotRadioButton().setEnabled(true);
 			getPanelBotones().getObjetosRadioButton().setEnabled(true);
+
 			getMatriz().addSituarRobot(new SituarRobotListener());
+
+			getPanelBotones().getRobotRadioButton().setBackground(Color.RED);
+			getPanelBotones().getObjetosRadioButton().setBackground(Color.RED);
 			// getEntorno().mostrarMatrizVirtual();
 		}
 	}
@@ -195,7 +209,8 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 			if (getPanelBotones().getRobotRadioButton().isSelected() == true
 					&& getMatriz().getComponentAt(
 							MouseInfo.getPointerInfo().getLocation())
-							.getClass() == DibujaCelda.class) {
+							.getClass() == DibujaCelda.class
+					&& getEntorno().isRobotColocado() == false) {
 
 				getEntorno().getRobot1().setPuntoAnterior(
 						getEntorno().getRobot1().getPuntoActual());
@@ -207,7 +222,8 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 										MouseInfo.getPointerInfo()
 												.getLocation()))
 										.getPosicionCeldaY()));
-
+				getEntorno().setRobotColocado(true);
+				getPanelBotones().getRobotRadioButton().setEnabled(false);
 				// SI EL RADIOBUTTON DE LOS OBJETOS ESTA SELECCIONADO, NO SE HAN
 				// COLOCADO TODOS LOS OBJETOS Y LO QUE SE CLICA ES UNA CELDA...
 			} else if (getPanelBotones().getObjetosRadioButton().isSelected() == true
@@ -226,12 +242,20 @@ public class DibujaEntornoInstanciable extends DibujaEntorno {
 												.getLocation()))
 										.getPosicionCeldaY()));
 				RepintarObjetos();
-			} else {
-				getPanelBotones().getRobotRadioButton().setEnabled(false);
+			} else if (getEntorno().isRobotColocado() == true
+					&& getEntorno().getNumeroObjetos() == getEntorno()
+							.getNumeroObjetosColocados()) {
+
+				// getPanelBotones().getRobotRadioButton().setEnabled(false);
 				getPanelBotones().getObjetosRadioButton().setEnabled(false);
 				getPanelBotones().getMoverRobot().setEnabled(true);
 				getPanelBotones().getEscaladaRadioButton().setEnabled(true);
 				getPanelBotones().getAestrellaRadioButton().setEnabled(true);
+
+				getPanelBotones().getRobotRadioButton().setBackground(
+						getPanelBotones().getBackground());
+				getPanelBotones().getObjetosRadioButton().setBackground(
+						getPanelBotones().getBackground());
 			}
 		}
 
