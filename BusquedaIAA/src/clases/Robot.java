@@ -57,8 +57,11 @@ public class Robot extends Observable {
 		setAnchoMapa(ancho);
 		setAltoMapa(alto);
 
-		if(mapaEntorno[puntoDestino.x][puntoDestino.y]==1)
+		if(mapaEntorno[puntoDestino.x][puntoDestino.y] == 1){
 			setPararMovimiento(true);
+			System.out.println("El punto de destino tiene un obstaculo");
+		}
+		
 		
 		setMapaDistancias(new int[anchoMapa][altoMapa]);
 		// FIJAMOS LOS OBSTACULOS COMO UN COSTE MUY ALTO
@@ -96,7 +99,7 @@ public class Robot extends Observable {
 	}
 
 	public void aEstrella () {
-		int caminoMinimoCoste = valorAlto;
+		int caminoMinimoCoste = valorAlto - 1;
 		if (puntoActual.x + 1 < anchoMapa
 				&& mapaDistancias[puntoActual.x + 1][puntoActual.y] < caminoMinimoCoste)
 			caminoMinimoCoste = mapaDistancias[puntoActual.x + 1][puntoActual.y];
@@ -123,6 +126,11 @@ public class Robot extends Observable {
 			else if (puntoActual.y - 1 >= 0
 					&& mapaDistancias[puntoActual.x][puntoActual.y - 1] == caminoMinimoCoste)
 				moverseArriba();
+			else{
+				setPararMovimiento(true);
+				System.out.println("Destino inalcanzable");
+				break;
+			}
 		}
 	}
 
